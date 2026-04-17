@@ -3,9 +3,19 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 
+function readCollapsed() {
+  try { return localStorage.getItem('sidebar-collapsed') === 'true' } catch { return false }
+}
+
 export function AppLayout({ children }) {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(readCollapsed)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const toggleCollapsed = () => setCollapsed(v => {
+    const next = !v
+    try { localStorage.setItem('sidebar-collapsed', String(next)) } catch {}
+    return next
+  })
 
   return (
     <div className="flex h-screen overflow-hidden bg-[var(--bg)]">
@@ -41,7 +51,7 @@ export function AppLayout({ children }) {
       {/* Main content area */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <TopBar
-          onToggleSidebar={() => setCollapsed(v => !v)}
+          onToggleSidebar={toggleCollapsed}
           onOpenMobile={() => setMobileOpen(true)}
         />
         <main className="flex-1 overflow-y-auto">

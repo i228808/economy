@@ -2,14 +2,11 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
   Cpu, Wallet, FileCheck, TrendingUp, ArrowRight,
-  CheckCircle2, Circle, AlertCircle, Zap
+  CheckCircle2, Circle, Globe
 } from 'lucide-react'
 import { StatWidget } from '@/components/ui/StatWidget'
 import { Card, CardHeader } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
-import { StatusBadge } from '@/components/ui/StatusBadge'
-import { Phase2Banner } from '@/components/ui/Phase2Banner'
 import { PageSpinner } from '@/components/ui/Spinner'
 import { useApi } from '@/hooks/useApi'
 import { useAuth } from '@/hooks/useAuth'
@@ -49,10 +46,10 @@ export default function Dashboard() {
       {/* Page header */}
       <div>
         <h1 className="font-display font-bold text-2xl text-[var(--text-primary)]">
-          Welcome back, {portfolio?.display_name || user?.display_name || 'Worker'}
+          Welcome back, {portfolio?.display_name || user?.display_name || 'Contributor'}
         </h1>
         <p className="text-sm text-[var(--text-muted)] mt-1">
-          Here's your AlpenMesh Compute overview.
+          Here is your contributor overview for AlpenMesh Compute.
         </p>
       </div>
 
@@ -60,8 +57,8 @@ export default function Dashboard() {
       {onboardingDone < onboardingSteps.length && (
         <Card className="border-[var(--accent-border)] bg-[var(--accent-dim)]">
           <CardHeader
-            title="Get started"
-            subtitle={`${onboardingDone} of ${onboardingSteps.length} steps complete`}
+            title="Complete your setup"
+            subtitle={`${onboardingDone} of ${onboardingSteps.length} steps done`}
           />
           {/* Progress bar */}
           <div className="w-full h-1.5 bg-[var(--surface-raised)] rounded-full mb-4 overflow-hidden">
@@ -88,7 +85,7 @@ export default function Dashboard() {
             <div className="mt-4">
               <Link to="/app/workers">
                 <Button size="sm">
-                  Connect Worker <ArrowRight size={14} />
+                  Connect your first worker <ArrowRight size={14} />
                 </Button>
               </Link>
             </div>
@@ -99,31 +96,31 @@ export default function Dashboard() {
       {/* Summary stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatWidget
-          label="Total Workers"
+          label="Connected Workers"
           value={summaryLoading ? '...' : fmt(summary?.total_workers ?? 0)}
           icon={Cpu}
           loading={summaryLoading}
           delay={0}
         />
         <StatWidget
-          label="Total Inferences"
+          label="Inference Jobs"
           value={summaryLoading ? '...' : fmt(summary?.total_inferences ?? 0)}
           icon={TrendingUp}
           loading={summaryLoading}
           delay={0.05}
         />
         <StatWidget
-          label="Total Rewards"
+          label="Total Earned"
           value={summaryLoading ? '...' : fmtAlpen(summary?.total_reward_alpen)}
-          icon={Zap}
+          icon={FileCheck}
           accent
           loading={summaryLoading}
           delay={0.1}
         />
         <StatWidget
-          label="Pending Rewards"
+          label="Pending Payout"
           value={summaryLoading ? '...' : fmtAlpen(summary?.pending_reward_alpen)}
-          icon={FileCheck}
+          icon={Wallet}
           loading={summaryLoading}
           delay={0.15}
         />
@@ -145,9 +142,10 @@ export default function Dashboard() {
           ) : workers.length === 0 ? (
             <div className="py-8 text-center">
               <Cpu size={28} className="mx-auto text-[var(--text-faint)] mb-3" />
-              <p className="text-sm text-[var(--text-muted)]">No workers connected yet.</p>
-              <Link to="/app/workers" className="mt-3 inline-block">
-                <Button size="sm" className="mt-1">Connect Worker</Button>
+              <p className="text-sm text-[var(--text-muted)]">No workers connected to your account yet.</p>
+              <p className="text-xs text-[var(--text-faint)] mt-1 mb-3">Register your first worker to start earning ALPEN.</p>
+              <Link to="/app/workers" className="inline-block">
+                <Button size="sm">Connect a worker</Button>
               </Link>
             </div>
           ) : (
@@ -177,7 +175,7 @@ export default function Dashboard() {
 
         {/* Wallet status */}
         <Card>
-          <CardHeader title="Wallet Status" />
+          <CardHeader title="Payout Wallet" />
           {portfolioLoading ? (
             <PageSpinner />
           ) : wallet ? (
@@ -185,7 +183,7 @@ export default function Dashboard() {
               <div className="p-3.5 rounded-[var(--radius-md)] bg-[var(--success-dim)] border border-[var(--success-dim)]">
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle2 size={15} className="text-[var(--success)]" />
-                  <span className="text-sm font-medium text-[var(--success)]">Wallet Connected</span>
+                  <span className="text-sm font-medium text-[var(--success)]">Wallet linked</span>
                 </div>
                 <p className="text-xs font-mono text-[var(--text-muted)] break-all">{wallet.wallet_address}</p>
                 <p className="text-xs text-[var(--text-faint)] mt-1">{wallet.network}</p>
@@ -208,20 +206,31 @@ export default function Dashboard() {
           ) : (
             <div className="py-8 text-center">
               <Wallet size={28} className="mx-auto text-[var(--text-faint)] mb-3" />
-              <p className="text-sm text-[var(--text-muted)]">No payout wallet linked yet.</p>
-              <Link to="/app/wallets" className="mt-3 inline-block">
-                <Button size="sm" className="mt-1">Link Wallet</Button>
+              <p className="text-sm text-[var(--text-muted)]">No payout wallet linked to your account.</p>
+              <p className="text-xs text-[var(--text-faint)] mt-1 mb-3">Link a wallet to receive your ALPEN rewards.</p>
+              <Link to="/app/wallets" className="inline-block">
+                <Button size="sm">Link a wallet</Button>
               </Link>
             </div>
           )}
         </Card>
       </div>
 
-      {/* Phase-2 teaser */}
-      <Phase2Banner
-        title="Job Submission & Compute Marketplace"
-        description="In the next phase, you'll be able to submit containerized workloads and rent distributed GPU compute directly from the AlpenMesh network."
-      />
+      {/* Marketplace teaser */}
+      <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div className="w-10 h-10 shrink-0 rounded-xl bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center">
+          <Globe size={18} className="text-[var(--accent)]" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-[var(--text-primary)] mb-0.5">Compute Marketplace</p>
+          <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+            Submit containerised workloads and source distributed GPU capacity from the network. Available in the Marketplace section.
+          </p>
+        </div>
+        <Link to="/app/marketplace" className="shrink-0">
+          <Button variant="secondary" size="sm">View marketplace <ArrowRight size={13} /></Button>
+        </Link>
+      </div>
     </div>
   )
 }

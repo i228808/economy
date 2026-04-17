@@ -10,32 +10,32 @@ export function TopBar({ onToggleSidebar, onOpenMobile }) {
     : user?.email?.slice(0, 2).toUpperCase() || 'AM'
 
   return (
-    <header className="h-14 border-b border-[var(--border)] bg-[var(--surface)] flex items-center px-4 gap-3 shrink-0">
+    <header className="h-16 border-b border-[var(--border)] bg-[var(--surface)] flex items-center px-4 gap-3 shrink-0">
       {/* Sidebar toggle desktop */}
       <button
         onClick={onToggleSidebar}
-        className="hidden md:flex w-8 h-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-colors"
+        className="hidden md:flex w-9 h-9 items-center justify-center rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-colors"
         aria-label="Toggle sidebar"
       >
-        <PanelLeft size={16} />
+        <PanelLeft size={18} />
       </button>
 
       {/* Mobile menu open */}
       <button
         onClick={onOpenMobile}
-        className="md:hidden flex w-8 h-8 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--surface-raised)] transition-colors"
+        className="md:hidden flex w-9 h-9 items-center justify-center rounded-lg text-[var(--text-muted)] hover:bg-[var(--surface-raised)] transition-colors"
         aria-label="Open menu"
       >
-        <Menu size={16} />
+        <Menu size={18} />
       </button>
 
       <div className="flex-1" />
 
-      <ThemeToggle size="sm" />
+      <ThemeToggle />
 
       {/* User avatar */}
       <div className="relative group">
-        <button className="w-8 h-8 rounded-full bg-[var(--accent-dim)] border border-[var(--accent-border)] text-[var(--accent)] text-xs font-bold font-display flex items-center justify-center">
+        <button className="w-9 h-9 rounded-full bg-[var(--accent-dim)] border border-[var(--accent-border)] text-[var(--accent)] text-sm font-bold font-display flex items-center justify-center">
           {initials}
         </button>
         {/* Dropdown */}

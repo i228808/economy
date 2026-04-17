@@ -4,8 +4,8 @@ import { useTheme } from '@/context/ThemeContext'
 export function ThemeToggle({ size = 'md' }) {
   const { theme, toggle } = useTheme()
   const isDark = theme === 'dark'
-  const dim = size === 'sm' ? 'w-7 h-7' : 'w-8 h-8'
-  const iconSize = size === 'sm' ? 13 : 15
+  const dim = size === 'sm' ? 'w-8 h-8' : 'w-9 h-9'
+  const iconSize = size === 'sm' ? 15 : 18
 
   return (
     <button

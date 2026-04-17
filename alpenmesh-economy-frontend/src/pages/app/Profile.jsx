@@ -43,7 +43,7 @@ export default function Profile() {
   if (loading) return <PageSpinner />
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h1 className="font-display font-bold text-2xl text-[var(--text-primary)]">Account Profile</h1>
         <p className="text-sm text-[var(--text-muted)] mt-1">Your AlpenMesh Compute account details.</p>
