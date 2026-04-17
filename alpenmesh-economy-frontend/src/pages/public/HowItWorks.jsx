@@ -2,13 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Shield, Cpu, Wallet, TrendingUp, Globe, Container, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.45, delay, ease: 'easeOut' },
-})
+import { blurIn, revealUp, slideLeft, popIn } from '@/lib/animations'
 
 const STEPS = [
   {
@@ -65,32 +59,32 @@ const EXPANDING_STEPS = [
 export default function HowItWorks() {
   return (
     <div>
-      {/* Hero */}
+      {/* Hero — blur dissolve */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" aria-hidden />
         <div className="max-w-7xl mx-auto px-5 relative z-10">
-          <motion.div {...fadeUp(0)} className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
+          <div className="max-w-2xl">
+            <motion.p {...blurIn(0)} className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
               How it works
-            </p>
-            <h1 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
+            </motion.p>
+            <motion.h1 {...blurIn(0.1)} className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
               From account to earnings, step by step
-            </h1>
-            <p className="text-[var(--text-muted)] text-lg leading-relaxed">
+            </motion.h1>
+            <motion.p {...blurIn(0.2)} className="text-[var(--text-muted)] text-lg leading-relaxed">
               A clear walkthrough of the AlpenMesh Compute contributor flow, from signing up to tracking your proof history and rewards.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
         </div>
       </section>
 
-      {/* Steps timeline */}
+      {/* Steps — slide in from left, staggered */}
       <section className="py-12 pb-20">
         <div className="max-w-4xl mx-auto px-5">
           <div className="relative flex flex-col gap-0">
             <div className="absolute left-6 top-12 bottom-12 w-px bg-[var(--border)] hidden sm:block" />
             {STEPS.map(({ n, icon: Icon, title, desc, details }, i) => (
-              <motion.div key={n} {...fadeUp(i * 0.07)} className="flex gap-6 pb-12 last:pb-0">
+              <motion.div key={n} {...slideLeft(i * 0.1)} className="flex gap-6 pb-12 last:pb-0">
                 <div className="shrink-0 hidden sm:flex flex-col items-center gap-2">
                   <div className="w-12 h-12 rounded-full bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center z-10 relative">
                     <Icon size={20} className="text-[var(--accent)]" />
@@ -115,10 +109,10 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* Expanding section */}
+      {/* Expanding — revealUp heading, slideLeft items */}
       <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-4xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="mb-10">
+          <motion.div {...revealUp(0)} className="mb-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
               Expanding the network
             </p>
@@ -131,7 +125,7 @@ export default function HowItWorks() {
           </motion.div>
           <div className="flex flex-col gap-4">
             {EXPANDING_STEPS.map(({ n, icon: Icon, title, desc }, i) => (
-              <motion.div key={n} {...fadeUp(i * 0.06)}>
+              <motion.div key={n} {...slideLeft(i * 0.1)}>
                 <div className="flex gap-5 p-6 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)]">
                   <div className="w-11 h-11 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] flex items-center justify-center shrink-0">
                     <Icon size={18} className="text-[var(--text-muted)]" />
@@ -150,10 +144,10 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — spring pop */}
       <section className="py-20 border-t border-[var(--border)]">
         <div className="max-w-3xl mx-auto px-5 text-center">
-          <motion.div {...fadeUp(0)}>
+          <motion.div {...popIn(0)}>
             <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">Ready to get started?</h2>
             <p className="text-[var(--text-muted)] text-lg mb-8 leading-relaxed">
               Create your account, connect your worker, and start earning today.

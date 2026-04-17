@@ -4,20 +4,14 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
+import { blurIn, revealUp, scaleIn, slideLeft, popIn, cascadeFade } from '@/lib/animations'
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, delay, ease: 'easeOut' },
-})
-
-/** No translateY: FAQ grid sits in two columns; motion y would widen hit boxes into the sibling column. */
-const fadeInViewport = (delay = 0) => ({
+/** FAQ only — no translateY to avoid column hit-box bleed */
+const faqFade = (delay = 0) => ({
   initial: { opacity: 0 },
   whileInView: { opacity: 1 },
   viewport: { once: true },
-  transition: { duration: 0.45, delay, ease: 'easeOut' },
+  transition: { duration: 0.4, delay, ease: 'easeOut' },
 })
 
 const STEPS = [
@@ -164,11 +158,11 @@ function PlatformOverviewSection() {
   const reduceMotion = useReducedMotion()
 
   const itemMotion = (delay = 0) => ({
-    initial: { opacity: 0, y: reduceMotion ? 0 : 22 },
-    whileInView: { opacity: 1, y: 0 },
+    initial: { opacity: 0, scale: reduceMotion ? 1 : 0.93, y: reduceMotion ? 0 : 10 },
+    whileInView: { opacity: 1, scale: 1, y: 0 },
     viewport: { once: true, margin: '-40px' },
     transition: {
-      duration: reduceMotion ? 0.12 : 0.48,
+      duration: reduceMotion ? 0.12 : 0.45,
       delay: reduceMotion ? 0 : delay,
       ease: [0.22, 1, 0.36, 1],
     },
@@ -337,23 +331,26 @@ export default function Landing() {
         <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 md:h-40 bg-gradient-to-t from-[var(--bg)] to-transparent pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-5 py-8 sm:py-12 md:py-16 relative z-10 w-full">
-          <motion.div {...fadeUp(0)} className="max-w-3xl w-full">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-faint)] mb-4">
+          <div className="max-w-3xl w-full">
+            {/* Kicker — blur in first */}
+            <motion.p {...blurIn(0)} className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-faint)] mb-4">
               Distributed GPU for AI
-            </p>
+            </motion.p>
 
-            <h1 className="font-display font-bold text-[clamp(1.875rem,4.5vw+0.5rem,3.5rem)] sm:text-[clamp(2.25rem,5vw,3.75rem)] text-[var(--text-primary)] leading-[1.08] mb-5 sm:mb-6">
+            {/* Headline — blur in slightly after */}
+            <motion.h1 {...blurIn(0.12)} className="font-display font-bold text-[clamp(1.875rem,4.5vw+0.5rem,3.5rem)] sm:text-[clamp(2.25rem,5vw,3.75rem)] text-[var(--text-primary)] leading-[1.08] mb-5 sm:mb-6">
               Put your GPU to work on{' '}
               <span className="text-[var(--accent)]">real AI infrastructure</span> and get paid in ALPEN.
-            </h1>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] leading-relaxed mb-8 sm:mb-10 max-w-2xl">
+            {/* Body + buttons — slide up after headline lands */}
+            <motion.p {...slideLeft(0.28)} className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] leading-relaxed mb-8 sm:mb-10 max-w-2xl">
               AlpenMesh Compute connects contributors who run GPU nodes with a network built for transparent rewards.
               Create an account, link your node and payout wallet, and track earnings as you contribute, not as a side
               project pitch, but as a product you can actually use.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap gap-3 mb-8 sm:mb-12 md:mb-14">
+            <motion.div {...slideLeft(0.38)} className="flex flex-wrap gap-3 mb-8 sm:mb-12 md:mb-14">
               <Link to="/signup">
                 <Button variant="cta" size="xl">
                   Get started <ArrowRight size={18} />
@@ -364,27 +361,27 @@ export default function Landing() {
                   See how it works
                 </Button>
               </Link>
-            </div>
+            </motion.div>
 
-            {/* Trust pillars */}
+            {/* Trust pillars — cascade fade */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-4 sm:pt-6 border-t border-[var(--border-subtle)]">
-              {TRUST_PILLARS.map(({ kicker, line }) => (
-                <div key={kicker}>
+              {TRUST_PILLARS.map(({ kicker, line }, i) => (
+                <motion.div key={kicker} {...cascadeFade(0.48 + i * 0.1)}>
                   <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--accent)] mb-2">
                     {kicker}
                   </p>
                   <p className="text-sm text-[var(--text-muted)] leading-relaxed">{line}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* How it works — width matches PublicLayout nav: max-w-7xl + px-5 */}
       <section className="py-24 bg-[var(--bg-subtle)]">
         <div className="max-w-7xl mx-auto w-full px-5">
-          <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
+          <motion.div {...revealUp(0)} className="text-center max-w-2xl mx-auto mb-14">
             <Badge variant="accent" className="mb-4">
               How it works
             </Badge>
@@ -398,7 +395,7 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {STEPS.map(({ n, title, desc }, i) => (
-              <motion.div key={n} {...fadeUp(i * 0.08)} className="h-full">
+              <motion.div key={n} {...scaleIn(i * 0.09)} className="h-full">
                 <div
                   className="bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)] p-7 sm:p-8 min-h-[260px] sm:min-h-[280px] lg:min-h-[300px] h-full hover:border-[var(--accent-border)] transition-colors relative overflow-hidden flex flex-col"
                 >
@@ -498,7 +495,7 @@ export default function Landing() {
       {/* FAQ */}
       <section className="py-24 border-t border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center mb-12 md:mb-14 max-w-2xl mx-auto">
+          <motion.div {...revealUp(0)} className="text-center mb-12 md:mb-14 max-w-2xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] mb-4">
               FAQ
             </p>
@@ -516,7 +513,7 @@ export default function Landing() {
             {FAQS.map((faq, i) => (
               <motion.div
                 key={faq.q}
-                {...fadeInViewport(0.05 + i * 0.03)}
+                {...faqFade(0.04 + i * 0.04)}
                 className="min-h-0 w-full min-w-0 overflow-x-clip"
               >
                 <FaqItem q={faq.q} a={faq.a} index={i} />
@@ -530,7 +527,7 @@ export default function Landing() {
                 return (
                   <motion.div
                     key={faq.q}
-                    {...fadeInViewport(0.05 + i * 0.03)}
+                    {...faqFade(0.04 + i * 0.04)}
                     className="min-h-0 w-full min-w-0 overflow-x-clip"
                   >
                     <FaqItem q={faq.q} a={faq.a} index={i} />
@@ -544,7 +541,7 @@ export default function Landing() {
                 return (
                   <motion.div
                     key={faq.q}
-                    {...fadeInViewport(0.05 + i * 0.03)}
+                    {...faqFade(0.04 + i * 0.04)}
                     className="min-h-0 w-full min-w-0 overflow-x-clip"
                   >
                     <FaqItem q={faq.q} a={faq.a} index={i} />
@@ -561,7 +558,7 @@ export default function Landing() {
         <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(100%,36rem)] h-[min(50vh,18rem)] rounded-full bg-[var(--accent)] opacity-[0.06] blur-[80px] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-5 text-center relative z-10">
-          <motion.div {...fadeUp(0)}>
+          <motion.div {...popIn(0)}>
             <h2 className="font-display font-bold text-4xl md:text-5xl text-[var(--text-primary)] mb-5">
               Ready to contribute?
             </h2>

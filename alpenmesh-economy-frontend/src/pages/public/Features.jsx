@@ -2,13 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Cpu, Wallet, FileCheck, TrendingUp, Globe, Zap, Shield, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.45, delay, ease: 'easeOut' },
-})
+import { blurIn, revealUp, scaleIn, slideLeft, popIn } from '@/lib/animations'
 
 const FEATURES = [
   {
@@ -83,31 +77,31 @@ const UPCOMING_FEATURES = [
 export default function Features() {
   return (
     <div>
-      {/* Hero */}
+      {/* Hero — blur dissolve, no translate */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" aria-hidden />
         <div className="max-w-7xl mx-auto px-5 relative z-10">
-          <motion.div {...fadeUp(0)} className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
+          <div className="max-w-2xl">
+            <motion.p {...blurIn(0)} className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
               Platform features
-            </p>
-            <h1 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
+            </motion.p>
+            <motion.h1 {...blurIn(0.1)} className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
               Everything you need to contribute and get paid
-            </h1>
-            <p className="text-[var(--text-muted)] text-lg leading-relaxed max-w-xl">
+            </motion.h1>
+            <motion.p {...blurIn(0.2)} className="text-[var(--text-muted)] text-lg leading-relaxed max-w-xl">
               Register your workers, link your wallet, and track your earnings and proof history from one place. All of it is live and backed by real data.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
         </div>
       </section>
 
-      {/* Feature cards */}
+      {/* Feature cards — scale in on scroll */}
       <section className="pb-24">
         <div className="max-w-7xl mx-auto px-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {FEATURES.map(({ icon: Icon, title, desc, bullets }, i) => (
-              <motion.div key={title} {...fadeUp(i * 0.07)}>
+              <motion.div key={title} {...scaleIn(i * 0.08)}>
                 <div className="group bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] p-7 h-full hover:border-[var(--accent-border)] hover:shadow-[0_20px_48px_-28px_rgba(0,0,0,0.4)] transition-[border-color,box-shadow] duration-300">
                   <div className="flex items-start gap-4 mb-5">
                     <div className="w-11 h-11 shrink-0 rounded-xl bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center">
@@ -133,10 +127,10 @@ export default function Features() {
         </div>
       </section>
 
-      {/* Upcoming */}
+      {/* Upcoming — slide in from left */}
       <section className="py-20 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="max-w-xl mb-12">
+          <motion.div {...revealUp(0)} className="max-w-xl mb-12">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
               What is coming next
             </p>
@@ -149,7 +143,7 @@ export default function Features() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {UPCOMING_FEATURES.map(({ icon: Icon, title, desc }, i) => (
-              <motion.div key={title} {...fadeUp(i * 0.06)}>
+              <motion.div key={title} {...slideLeft(i * 0.07)}>
                 <div className="flex gap-4 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] p-6 h-full">
                   <div className="w-10 h-10 shrink-0 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] flex items-center justify-center mt-0.5">
                     <Icon size={18} className="text-[var(--text-muted)]" />
@@ -165,10 +159,10 @@ export default function Features() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — spring pop */}
       <section className="py-20">
         <div className="max-w-3xl mx-auto px-5 text-center">
-          <motion.div {...fadeUp(0)}>
+          <motion.div {...popIn(0)}>
             <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
               Ready to get started?
             </h2>

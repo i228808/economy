@@ -2,13 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Cpu, Zap, Shield, Clock, DollarSign, Globe, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.45, delay, ease: 'easeOut' },
-})
+import { blurIn, revealUp, scaleIn, slideLeft, popIn } from '@/lib/animations'
 
 const TIERS = [
   {
@@ -59,38 +53,38 @@ const BILLING_MODELS = [
 export default function Marketplace() {
   return (
     <div>
-      {/* Hero */}
+      {/* Hero — blur dissolve with staggered children */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" aria-hidden />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-[var(--accent)] opacity-[0.04] blur-[100px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-5 relative z-10">
-          <motion.div {...fadeUp(0)} className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
+          <div className="max-w-2xl">
+            <motion.p {...blurIn(0)} className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
               Marketplace
-            </p>
-            <h1 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
+            </motion.p>
+            <motion.h1 {...blurIn(0.1)} className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
               Rent distributed GPU compute from the network
-            </h1>
-            <p className="text-[var(--text-muted)] text-lg leading-relaxed mb-8">
+            </motion.h1>
+            <motion.p {...blurIn(0.2)} className="text-[var(--text-muted)] text-lg leading-relaxed mb-8">
               The AlpenMesh marketplace lets teams source GPU capacity from verified contributors across the network. Choose a compute tier, set your budget, and pay in ALPEN.
-            </p>
-            <div className="flex flex-wrap gap-3">
+            </motion.p>
+            <motion.div {...blurIn(0.3)} className="flex flex-wrap gap-3">
               <Link to="/signup">
                 <Button variant="cta" size="xl">Join the network <ArrowRight size={16} /></Button>
               </Link>
               <Link to="/how-it-works">
                 <Button variant="secondary" size="xl">How it works</Button>
               </Link>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Compute tiers */}
+      {/* Compute tiers — scale in */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="max-w-xl mb-12">
+          <motion.div {...revealUp(0)} className="max-w-xl mb-12">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
               Compute tiers
             </p>
@@ -103,7 +97,7 @@ export default function Marketplace() {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {TIERS.map(({ icon: Icon, name, vram, tier, price, features, highlight }, i) => (
-              <motion.div key={name} {...fadeUp(i * 0.07)}>
+              <motion.div key={name} {...scaleIn(i * 0.09)}>
                 <div className={`p-7 rounded-[var(--radius-xl)] h-full border flex flex-col ${
                   highlight
                     ? 'border-[var(--accent-border)] bg-[var(--accent-dim)]'
@@ -130,10 +124,10 @@ export default function Marketplace() {
         </div>
       </section>
 
-      {/* Billing models */}
+      {/* Billing models — slide in from left */}
       <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="max-w-xl mb-10">
+          <motion.div {...revealUp(0)} className="max-w-xl mb-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
               Billing
             </p>
@@ -146,7 +140,7 @@ export default function Marketplace() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {BILLING_MODELS.map(({ icon: Icon, title, desc }, i) => (
-              <motion.div key={title} {...fadeUp(i * 0.06)}>
+              <motion.div key={title} {...slideLeft(i * 0.08)}>
                 <div className="flex gap-4 p-6 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] h-full">
                   <div className="w-10 h-10 shrink-0 rounded-xl bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center mt-0.5">
                     <Icon size={18} className="text-[var(--accent)]" />
@@ -162,10 +156,10 @@ export default function Marketplace() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — spring pop */}
       <section className="py-20 border-t border-[var(--border)]">
         <div className="max-w-3xl mx-auto px-5 text-center">
-          <motion.div {...fadeUp(0)}>
+          <motion.div {...popIn(0)}>
             <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
               Start contributing today
             </h2>

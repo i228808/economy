@@ -2,13 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Globe, Shield, TrendingUp, Cpu, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.45, delay, ease: 'easeOut' },
-})
+import { blurIn, revealUp, scaleIn, slideLeft, slideRight, popIn, cascadeFade } from '@/lib/animations'
 
 const PRINCIPLES = [
   {
@@ -45,34 +39,43 @@ const NETWORK_TAGS = [
   'Pay-per-compute billing',
 ]
 
+const STATS = [
+  { label: 'Reward token', val: 'ALPEN' },
+  { label: 'Wallet network', val: 'Solana-compatible' },
+  { label: 'Worker model', val: 'GPU inference nodes' },
+  { label: 'Proof system', val: 'Signed batch records' },
+  { label: 'Contributor access', val: 'Permissionless' },
+  { label: 'Settlement', val: 'On-chain, automatic' },
+]
+
 export default function About() {
   return (
     <div>
-      {/* Hero */}
+      {/* Hero — blur dissolve, staggered lines */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[var(--accent)] opacity-[0.04] blur-[100px] pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" aria-hidden />
         <div className="max-w-7xl mx-auto px-5 relative z-10">
-          <motion.div {...fadeUp(0)} className="max-w-3xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-5">
+          <div className="max-w-3xl">
+            <motion.p {...blurIn(0)} className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-5">
               About AlpenMesh
-            </p>
-            <h1 className="font-display font-bold text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.06] text-[var(--text-primary)] mb-6">
+            </motion.p>
+            <motion.h1 {...blurIn(0.1)} className="font-display font-bold text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.06] text-[var(--text-primary)] mb-6">
               Infrastructure for the next generation of distributed AI compute
-            </h1>
-            <p className="text-lg text-[var(--text-muted)] leading-relaxed max-w-2xl">
+            </motion.h1>
+            <motion.p {...blurIn(0.22)} className="text-lg text-[var(--text-muted)] leading-relaxed max-w-2xl">
               AlpenMesh is a GPU compute network built around contributors. Anyone with a capable machine can join, connect their worker, and earn ALPEN rewards for the inference work their hardware completes.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
         </div>
       </section>
 
-      {/* Mission */}
+      {/* Mission — left text slides in, right stat boxes scale in */}
       <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div {...fadeUp(0)}>
+            <motion.div {...slideLeft(0)}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-4">
                 Our mission
               </p>
@@ -89,29 +92,24 @@ export default function About() {
                 The goal is a marketplace where AI teams can source distributed GPU capacity and pay in ALPEN, with contributors on the other side earning from the capacity they provide.
               </p>
             </motion.div>
-            <motion.div {...fadeUp(0.12)} className="grid grid-cols-2 gap-4">
-              {[
-                { label: 'Reward token', val: 'ALPEN' },
-                { label: 'Wallet network', val: 'Solana-compatible' },
-                { label: 'Worker model', val: 'GPU inference nodes' },
-                { label: 'Proof system', val: 'Signed batch records' },
-                { label: 'Contributor access', val: 'Permissionless' },
-                { label: 'Settlement', val: 'On-chain, automatic' },
-              ].map(({ label, val }) => (
-                <div key={label} className="p-4 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]">
-                  <p className="text-xs text-[var(--text-faint)] mb-1">{label}</p>
-                  <p className="font-display font-bold text-sm text-[var(--text-primary)]">{val}</p>
-                </div>
+            <div className="grid grid-cols-2 gap-4">
+              {STATS.map(({ label, val }, i) => (
+                <motion.div key={label} {...slideRight(0.06 + i * 0.06)}>
+                  <div className="p-4 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]">
+                    <p className="text-xs text-[var(--text-faint)] mb-1">{label}</p>
+                    <p className="font-display font-bold text-sm text-[var(--text-primary)]">{val}</p>
+                  </div>
+                </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Principles */}
+      {/* Principles — scale in from slightly small */}
       <section className="py-16 border-t border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="max-w-xl mb-12">
+          <motion.div {...revealUp(0)} className="max-w-xl mb-12">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
               What we stand for
             </p>
@@ -121,7 +119,7 @@ export default function About() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {PRINCIPLES.map(({ icon: Icon, title, desc }, i) => (
-              <motion.div key={title} {...fadeUp(i * 0.07)}>
+              <motion.div key={title} {...scaleIn(i * 0.08)}>
                 <div className="flex gap-4 p-6 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] h-full hover:border-[var(--accent-border)] transition-colors duration-200">
                   <div className="w-11 h-11 shrink-0 rounded-xl bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center mt-0.5">
                     <Icon size={20} className="text-[var(--accent)]" />
@@ -137,10 +135,10 @@ export default function About() {
         </div>
       </section>
 
-      {/* Network scope */}
+      {/* Network scope — each tag cascades in individually */}
       <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 text-center">
-          <motion.div {...fadeUp(0)} className="mb-10">
+          <motion.div {...revealUp(0)} className="mb-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
               The network in scope
             </p>
@@ -151,23 +149,24 @@ export default function About() {
               From contributor onboarding to job execution and settlement, the network is designed to handle the full lifecycle of distributed GPU compute.
             </p>
           </motion.div>
-          <motion.div {...fadeUp(0.1)} className="flex flex-wrap justify-center gap-2.5">
-            {NETWORK_TAGS.map(tag => (
-              <span
+          <div className="flex flex-wrap justify-center gap-2.5">
+            {NETWORK_TAGS.map((tag, i) => (
+              <motion.span
                 key={tag}
+                {...cascadeFade(0.05 + i * 0.05)}
                 className="px-3.5 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded-full text-xs text-[var(--text-muted)] font-medium"
               >
                 {tag}
-              </span>
+              </motion.span>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — spring pop */}
       <section className="py-20 border-t border-[var(--border)]">
         <div className="max-w-3xl mx-auto px-5 text-center">
-          <motion.div {...fadeUp(0)}>
+          <motion.div {...popIn(0)}>
             <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
               Become part of the network
             </h2>
