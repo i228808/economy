@@ -68,6 +68,10 @@ const FEATURES = [
   },
 ]
 
+/** Set to true when you want the platform grid and future-phase teaser back on the home page. */
+const SHOW_LANDING_PLATFORM_GRID = false
+const SHOW_LANDING_FUTURE_PHASE = false
+
 const TRUST_PILLARS = [
   {
     kicker: 'Transparency',
@@ -225,77 +229,79 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
-            <Badge variant="accent" className="mb-4">
-              Platform
-            </Badge>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              What you can do today
-            </h2>
-            <p className="text-[var(--text-muted)]">
-              Everything listed as available is live in the product. Anything marked as a future phase is labeled so you
-              are never misled.
-            </p>
-          </motion.div>
+      {SHOW_LANDING_PLATFORM_GRID && (
+        <section className="py-24">
+          <div className="max-w-7xl mx-auto px-5">
+            <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
+              <Badge variant="accent" className="mb-4">
+                Platform
+              </Badge>
+              <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
+                What you can do today
+              </h2>
+              <p className="text-[var(--text-muted)]">
+                Everything listed as available is live in the product. Anything marked as a future phase is labeled so you
+                are never misled.
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map(({ title, desc, live }, i) => (
-              <motion.div key={title} {...fadeUp(i * 0.06)}>
-                <div
-                  className={`rounded-[var(--radius-xl)] p-6 h-full border pl-5 transition-colors ${
-                    live
-                      ? 'bg-[var(--surface)] border-[var(--border)] border-l-4 border-l-[var(--accent)] hover:border-[var(--accent-border)]'
-                      : 'bg-[var(--surface)] border border-dashed border-[var(--border)] border-l-4 border-l-[var(--border)] opacity-80'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <h3 className="font-display font-bold text-[var(--text-primary)]">{title}</h3>
-                    {live ? <Badge variant="live">Available</Badge> : <Badge variant="phase2">Coming later</Badge>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {FEATURES.map(({ title, desc, live }, i) => (
+                <motion.div key={title} {...fadeUp(i * 0.06)}>
+                  <div
+                    className={`rounded-[var(--radius-xl)] p-6 h-full border pl-5 transition-colors ${
+                      live
+                        ? 'bg-[var(--surface)] border-[var(--border)] border-l-4 border-l-[var(--accent)] hover:border-[var(--accent-border)]'
+                        : 'bg-[var(--surface)] border border-dashed border-[var(--border)] border-l-4 border-l-[var(--border)] opacity-80'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <h3 className="font-display font-bold text-[var(--text-primary)]">{title}</h3>
+                      {live ? <Badge variant="live">Available</Badge> : <Badge variant="phase2">Coming later</Badge>}
+                    </div>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
                   </div>
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Future phase */}
-      <section className="py-20 bg-[var(--bg-subtle)]">
-        <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="max-w-3xl mx-auto text-center">
-            <Badge variant="phase2" className="mb-6">
-              Coming in a later phase
-            </Badge>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              Rent GPU when the marketplace opens
-            </h2>
-            <p className="text-[var(--text-muted)] text-lg mb-10 leading-relaxed">
-              We are building a way for teams to buy compute from the network, not just contribute it. When that layer
-              ships, you will be able to submit jobs, set resource expectations and pay in ALPEN. It is not live yet;
-              this page will stay explicit about that.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-              {[
-                { title: 'Submit jobs', desc: 'Define what you want to run and what you are willing to spend.' },
-                { title: 'Track runs', desc: 'Follow status from queue through completion.' },
-                { title: 'Settle fairly', desc: 'Pricing and settlement designed around verifiable work.' },
-              ].map(({ title, desc }) => (
-                <div
-                  key={title}
-                  className="p-5 bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-[var(--radius-lg)]"
-                >
-                  <h4 className="font-semibold text-[var(--text-primary)] text-sm mb-1">{title}</h4>
-                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">{desc}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
+
+      {SHOW_LANDING_FUTURE_PHASE && (
+        <section className="py-20 bg-[var(--bg-subtle)]">
+          <div className="max-w-7xl mx-auto px-5">
+            <motion.div {...fadeUp(0)} className="max-w-3xl mx-auto text-center">
+              <Badge variant="phase2" className="mb-6">
+                Coming in a later phase
+              </Badge>
+              <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
+                Rent GPU when the marketplace opens
+              </h2>
+              <p className="text-[var(--text-muted)] text-lg mb-10 leading-relaxed">
+                We are building a way for teams to buy compute from the network, not just contribute it. When that layer
+                ships, you will be able to submit jobs, set resource expectations and pay in ALPEN. It is not live yet;
+                this page will stay explicit about that.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+                {[
+                  { title: 'Submit jobs', desc: 'Define what you want to run and what you are willing to spend.' },
+                  { title: 'Track runs', desc: 'Follow status from queue through completion.' },
+                  { title: 'Settle fairly', desc: 'Pricing and settlement designed around verifiable work.' },
+                ].map(({ title, desc }) => (
+                  <div
+                    key={title}
+                    className="p-5 bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-[var(--radius-lg)]"
+                  >
+                    <h4 className="font-semibold text-[var(--text-primary)] text-sm mb-1">{title}</h4>
+                    <p className="text-xs text-[var(--text-muted)] leading-relaxed">{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* FAQ */}
       <section className="py-24">
