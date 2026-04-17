@@ -15,7 +15,7 @@ import { workersApi } from '@/api/workers'
 function fmtAlpen(n = 0) { return `${Number(n || 0).toFixed(3)} ALPEN` }
 function fmt(n = 0) { return new Intl.NumberFormat().format(n) }
 function fmtDate(ts) {
-  if (!ts) return '—'
+  if (!ts) return 'N/A'
   return new Date(ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
@@ -144,7 +144,7 @@ export default function Proofs() {
                     className="border-b border-[var(--border-subtle)] hover:bg-[var(--surface-raised)] transition-colors"
                   >
                     <td className="py-3.5 px-5 font-mono text-xs text-[var(--text-muted)]">
-                      {proof.proof_id?.slice(0, 16)}…
+                      {proof.proof_id?.slice(0, 16)}...
                     </td>
                     <td className="py-3.5 px-3 text-sm text-[var(--text-muted)]">
                       <span className="truncate max-w-[120px] block">{proof.workerLabel}</span>

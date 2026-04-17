@@ -145,7 +145,7 @@ export default function Wallets() {
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-[var(--text-primary)] truncate">{w.label}</p>
                       {w.payout_wallet ? (
-                        <p className="text-xs font-mono text-[var(--text-faint)] truncate">{w.payout_wallet.slice(0, 16)}…</p>
+                        <p className="text-xs font-mono text-[var(--text-faint)] truncate">{w.payout_wallet.slice(0, 16)}...</p>
                       ) : (
                         <span className="text-xs text-[var(--warning)]">No wallet bound</span>
                       )}

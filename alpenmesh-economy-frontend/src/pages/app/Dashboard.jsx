@@ -100,21 +100,21 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatWidget
           label="Total Workers"
-          value={summaryLoading ? '—' : fmt(summary?.total_workers ?? 0)}
+          value={summaryLoading ? '...' : fmt(summary?.total_workers ?? 0)}
           icon={Cpu}
           loading={summaryLoading}
           delay={0}
         />
         <StatWidget
           label="Total Inferences"
-          value={summaryLoading ? '—' : fmt(summary?.total_inferences ?? 0)}
+          value={summaryLoading ? '...' : fmt(summary?.total_inferences ?? 0)}
           icon={TrendingUp}
           loading={summaryLoading}
           delay={0.05}
         />
         <StatWidget
           label="Total Rewards"
-          value={summaryLoading ? '—' : fmtAlpen(summary?.total_reward_alpen)}
+          value={summaryLoading ? '...' : fmtAlpen(summary?.total_reward_alpen)}
           icon={Zap}
           accent
           loading={summaryLoading}
@@ -122,7 +122,7 @@ export default function Dashboard() {
         />
         <StatWidget
           label="Pending Rewards"
-          value={summaryLoading ? '—' : fmtAlpen(summary?.pending_reward_alpen)}
+          value={summaryLoading ? '...' : fmtAlpen(summary?.pending_reward_alpen)}
           icon={FileCheck}
           loading={summaryLoading}
           delay={0.15}
@@ -162,7 +162,7 @@ export default function Dashboard() {
                     <span className="w-2 h-2 rounded-full bg-[var(--success)]" />
                     <div>
                       <p className="text-sm font-medium text-[var(--text-primary)]">{w.label}</p>
-                      <p className="text-xs text-[var(--text-faint)] font-mono">{w.worker_id.slice(0, 12)}…</p>
+                      <p className="text-xs text-[var(--text-faint)] font-mono">{w.worker_id.slice(0, 12)}...</p>
                     </div>
                   </div>
                   <div className="text-right">

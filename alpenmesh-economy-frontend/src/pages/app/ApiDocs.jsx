@@ -67,7 +67,7 @@ export default function ApiDocs() {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <h1 className="font-display font-bold text-2xl text-[var(--text-primary)]">API Reference</h1>
-          <Badge variant="phase2">Partial — Phase 2</Badge>
+          <Badge variant="phase2">Partial (Phase 2)</Badge>
         </div>
         <p className="text-sm text-[var(--text-muted)]">Current live endpoints and planned future API surface.</p>
       </div>

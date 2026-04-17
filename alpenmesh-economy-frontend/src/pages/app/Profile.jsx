@@ -17,7 +17,7 @@ function InfoRow({ icon: Icon, label, value, mono = false }) {
         <span className="text-sm">{label}</span>
       </div>
       <span className={`text-sm text-[var(--text-primary)] ${mono ? 'font-mono text-xs' : 'font-medium'} truncate max-w-[220px]`}>
-        {value || <span className="text-[var(--text-faint)]">—</span>}
+        {value || <span className="text-[var(--text-faint)]">Not set</span>}
       </span>
     </div>
   )
@@ -88,7 +88,7 @@ export default function Profile() {
       {/* Session */}
       <Card>
         <CardHeader title="Session" />
-        <InfoRow icon={Shield} label="Session Token" value={`${user?.session_token?.slice(0, 24)}…`} mono />
+        <InfoRow icon={Shield} label="Session Token" value={`${user?.session_token?.slice(0, 24)}...`} mono />
         <div className="mt-5">
           <Button variant="danger" onClick={handleLogout}>
             <LogOut size={14} /> Sign Out

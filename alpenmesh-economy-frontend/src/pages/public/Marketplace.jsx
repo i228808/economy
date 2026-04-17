@@ -50,7 +50,7 @@ export default function Marketplace() {
           <motion.div {...fadeUp(0)}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--warning-dim)] border border-[var(--warning-dim)] mb-6">
               <Clock size={12} className="text-[var(--warning)]" />
-              <span className="text-xs font-medium text-[var(--warning)]">Coming in Next Phase — Not Yet Available</span>
+              <span className="text-xs font-medium text-[var(--warning)]">Coming in next phase (not yet available)</span>
             </div>
             <h1 className="font-display font-bold text-5xl sm:text-6xl text-[var(--text-primary)] mb-5">
               Compute Marketplace

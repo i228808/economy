@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Menu, X, Zap } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ThemeToggle } from './ThemeToggle'
 import { Button } from '@/components/ui/Button'
@@ -21,11 +21,11 @@ export function PublicLayout({ children }) {
       <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-6">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 font-display font-bold text-lg text-[var(--text-primary)] shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center">
-              <Zap size={16} className="text-[#090B0F]" fill="currentColor" />
-            </div>
-            <span>AlpenMesh <span className="text-[var(--accent)]">Compute</span></span>
+          <Link
+            to="/"
+            className="font-display font-bold text-lg text-[var(--text-primary)] shrink-0 tracking-tight"
+          >
+            AlpenMesh <span className="text-[var(--accent)]">Compute</span>
           </Link>
 
           {/* Desktop nav */}
@@ -52,7 +52,7 @@ export function PublicLayout({ children }) {
                 <Button variant="ghost" size="sm">Sign In</Button>
               </Link>
               <Link to="/signup">
-                <Button size="sm">Get Started</Button>
+                <Button variant="cta" size="sm">Get Started</Button>
               </Link>
             </div>
             <button
@@ -89,7 +89,7 @@ export function PublicLayout({ children }) {
                   <Button variant="secondary" size="md" className="w-full justify-center">Sign In</Button>
                 </Link>
                 <Link to="/signup" onClick={() => setMobileOpen(false)}>
-                  <Button size="md" className="w-full justify-center">Get Started</Button>
+                  <Button variant="cta" size="md" className="w-full justify-center">Get Started</Button>
                 </Link>
               </div>
             </motion.div>
@@ -105,10 +105,7 @@ export function PublicLayout({ children }) {
         <div className="max-w-7xl mx-auto px-5">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="space-y-2 max-w-xs">
-              <Link to="/" className="flex items-center gap-2.5 font-display font-bold text-base text-[var(--text-primary)]">
-                <div className="w-6 h-6 rounded-md bg-[var(--accent)] flex items-center justify-center">
-                  <Zap size={12} className="text-[#090B0F]" fill="currentColor" />
-                </div>
+              <Link to="/" className="font-display font-bold text-base text-[var(--text-primary)]">
                 AlpenMesh Compute
               </Link>
               <p className="text-sm text-[var(--text-muted)]">
@@ -138,10 +135,7 @@ export function PublicLayout({ children }) {
           </div>
           <div className="border-t border-[var(--border)] mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs text-[var(--text-faint)]">&copy; {new Date().getFullYear()} AlpenMesh Compute. Built for the decentralized era.</p>
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-[var(--text-faint)]">FYP Project ·</span>
-              <span className="text-xs text-[var(--text-faint)]">AlpenMesh Network</span>
-            </div>
+            <span className="text-xs text-[var(--text-faint)]">AlpenMesh Network</span>
           </div>
         </div>
       </footer>

@@ -14,7 +14,7 @@ const fadeUp = (delay = 0) => ({
 const LIVE_STEPS = [
   {
     n: '01', icon: Shield, title: 'Create Your Account',
-    desc: 'Sign up with email and display name. Your account is provisioned immediately — no wallet required at this stage.',
+    desc: 'Sign up with email and display name. Your account is provisioned immediately, with no wallet required at this stage.',
     details: [
       'Email + password authentication',
       'Session-based auth with server-side token rotation',
@@ -76,7 +76,7 @@ export default function HowItWorks() {
               Technically accurate. Start to finish.
             </h1>
             <p className="text-[var(--text-muted)] text-lg leading-relaxed">
-              A step-by-step walkthrough of the AlpenMesh Compute economy system — from account creation to proof settlement.
+              A step-by-step walkthrough of the AlpenMesh Compute economy system, from account creation to proof settlement.
             </p>
           </motion.div>
         </div>

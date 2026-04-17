@@ -59,7 +59,7 @@ function WorkerCard({ worker, index }) {
           <div className="mt-3 flex items-center justify-between">
             {worker.payout_wallet ? (
               <p className="text-xs text-[var(--text-faint)] font-mono truncate max-w-[180px]">
-                {worker.payout_wallet.slice(0, 8)}…{worker.payout_wallet.slice(-6)}
+                {worker.payout_wallet.slice(0, 8)}...{worker.payout_wallet.slice(-6)}
               </p>
             ) : (
               <Badge variant="warning">No payout wallet</Badge>

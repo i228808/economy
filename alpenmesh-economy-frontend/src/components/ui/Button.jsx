@@ -3,6 +3,8 @@ import { Loader2 } from 'lucide-react'
 
 const variants = {
   primary: 'bg-[var(--accent)] text-[#090B0F] font-semibold hover:bg-[var(--accent-hover)] shadow-sm',
+  /** Primary CTA: warm off-white hover (landing / marketing) */
+  cta: 'bg-[var(--accent)] text-[#090B0F] font-semibold shadow-sm transition-colors duration-200 hover:bg-[#F0EFE9] hover:text-[#090B0F] hover:shadow-md',
   secondary: 'bg-[var(--surface-raised)] text-[var(--text-primary)] border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)]',
   ghost: 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]',
   danger: 'bg-[var(--error-dim)] text-[var(--error)] border border-[var(--error-dim)] hover:bg-[var(--error)] hover:text-white',

@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import {
-  Zap, Cpu, Wallet, FileCheck, TrendingUp, ArrowRight,
-  ChevronDown, CheckCircle2, Globe, Shield, Clock
-} from 'lucide-react'
+import { ArrowRight, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 
@@ -16,41 +13,96 @@ const fadeUp = (delay = 0) => ({
 })
 
 const STEPS = [
-  { n: '01', title: 'Create Account', desc: 'Sign up for free. No crypto wallet needed to get started.', icon: Shield },
-  { n: '02', title: 'Connect Worker', desc: 'Register your local AlpenMesh worker ID and link it to your account.', icon: Cpu },
-  { n: '03', title: 'Link Wallet', desc: 'Attach your Solana-compatible payout wallet to receive ALPEN rewards.', icon: Wallet },
-  { n: '04', title: 'Earn Rewards', desc: 'Your worker contributes GPU inferences. Proofs are batched and rewards flow in.', icon: TrendingUp },
+  {
+    n: '01',
+    title: 'Create your account',
+    desc: 'Sign up free in a few minutes. You can add a payout wallet whenever you are ready to receive ALPEN.',
+  },
+  {
+    n: '02',
+    title: 'Connect your worker',
+    desc: 'Link the AlpenMesh worker on your machine to your profile so your contribution is credited to you.',
+  },
+  {
+    n: '03',
+    title: 'Add your payout wallet',
+    desc: 'Choose where you want rewards sent. Use a wallet you control that works with the network.',
+  },
+  {
+    n: '04',
+    title: 'Earn as you go',
+    desc: 'Your GPU helps run real AI workloads. Your dashboard shows what you have earned and what is still settling.',
+  },
 ]
 
 const FEATURES = [
-  { icon: Cpu, title: 'Worker Onboarding', desc: 'Register and connect workers in minutes with your worker ID and secret.', live: true },
-  { icon: Wallet, title: 'Wallet Linking', desc: 'Attach a payout wallet to your account or per-worker for flexible reward routing.', live: true },
-  { icon: FileCheck, title: 'Proof Visibility', desc: 'Every inference batch generates a proof. Track chain lifecycle in real time.', live: true },
-  { icon: TrendingUp, title: 'Earnings Dashboard', desc: 'Monitor total, pending, and submitted reward status across all connected workers.', live: true },
-  { icon: Globe, title: 'Job Marketplace', desc: 'Rent distributed GPU compute for your own AI workloads.', live: false },
-  { icon: Zap, title: 'Containerized Jobs', desc: 'Submit Docker-based workloads with GPU specs and output destinations.', live: false },
+  {
+    title: 'Straightforward onboarding',
+    desc: 'Clear steps to register your node and tie it to your profile, with no guesswork.',
+    live: true,
+  },
+  {
+    title: 'Wallet linking',
+    desc: 'Connect payout details at the account level or per node, whichever fits your setup.',
+    live: true,
+  },
+  {
+    title: 'Activity & proof history',
+    desc: 'See batches of work and their status over time, so nothing feels hidden.',
+    live: true,
+  },
+  {
+    title: 'Earnings overview',
+    desc: 'Track totals and what is still settling versus already credited.',
+    live: true,
+  },
+  {
+    title: 'Compute marketplace',
+    desc: 'Rent distributed GPU capacity for your own jobs when the marketplace launches.',
+    live: false,
+  },
+  {
+    title: 'Container-style jobs',
+    desc: 'Run packaged workloads with resource targets, planned for a future release.',
+    live: false,
+  },
+]
+
+const TRUST_PILLARS = [
+  {
+    kicker: 'Transparency',
+    line: 'See contribution and reward history in one place.',
+  },
+  {
+    kicker: 'You stay in control',
+    line: 'Your hardware runs on your terms; you choose what to connect.',
+  },
+  {
+    kicker: 'Built for real workloads',
+    line: 'Designed around GPU-backed AI inference, not speculation.',
+  },
 ]
 
 const FAQS = [
   {
     q: 'What is AlpenMesh Compute?',
-    a: 'AlpenMesh Compute is a decentralized GPU compute participation platform. Workers contribute GPU power, earn ALPEN rewards per inference batch, and contribute to a distributed AI compute network.',
+    a: 'It is a platform for contributing GPU capacity to a distributed network and earning rewards in ALPEN for the work your machine performs. The focus is transparent accounting and a clear path from contribution to payout.',
   },
   {
-    q: 'What hardware do I need to run a worker?',
-    a: 'Any NVIDIA or compatible GPU with sufficient VRAM can run an AlpenMesh worker. The local worker software handles inference batching and proof generation automatically.',
+    q: 'What do I need to participate?',
+    a: 'A compatible GPU and the AlpenMesh worker software. Requirements depend on the workloads the network assigns; check the documentation for current guidance.',
   },
   {
-    q: 'How are rewards calculated?',
-    a: 'Rewards are calculated per inference batch submitted as proof to the network. The amount depends on the number of inferences completed and the network reward rate at settlement time.',
+    q: 'How do rewards work?',
+    a: 'Rewards reflect verified contribution over time. You can see pending versus settled amounts in your dashboard so you always know where things stand.',
   },
   {
-    q: 'When is the compute marketplace available?',
-    a: 'The marketplace is planned for Phase 2. Currently, the platform focuses on worker contribution, earnings tracking, and proof visibility.',
+    q: 'When can I rent GPU from others?',
+    a: 'A marketplace for buyers and renters is planned for a later phase. Today the product is centered on contributors: connecting nodes, linking wallets, and tracking earnings.',
   },
   {
-    q: 'Is this a real product?',
-    a: 'Yes — the worker backend, auth, earnings, proof, and wallet systems are all live. This is a final year project (FYP) demonstrating a production-grade decentralized compute economy.',
+    q: 'Is this production-ready?',
+    a: 'The platform is built for real sign-up, wallet linking, and earnings visibility. Features that are still in development are labeled clearly so expectations stay honest.',
   },
 ]
 
@@ -60,6 +112,9 @@ function FaqItem({ q, a }) {
     <div
       className="border border-[var(--border)] rounded-[var(--radius-md)] overflow-hidden cursor-pointer hover:border-[var(--accent-border)] transition-colors"
       onClick={() => setOpen(v => !v)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => e.key === 'Enter' && setOpen(v => !v)}
     >
       <div className="flex items-center justify-between px-5 py-4 gap-4">
         <p className="font-medium text-[var(--text-primary)] text-sm">{q}</p>
@@ -80,154 +135,51 @@ function FaqItem({ q, a }) {
 export default function Landing() {
   return (
     <div>
-      {/* ── Hero ───────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden min-h-[88vh] flex items-center">
-        {/* Background layers */}
-        <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full bg-[var(--accent)] opacity-[0.04] blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--bg)] to-transparent pointer-events-none" />
+      {/* Hero: one viewport below sticky nav (4rem), centered, responsive */}
+      <section className="relative overflow-hidden min-h-[calc(100dvh-4rem)] flex flex-col justify-center">
+        <div className="absolute inset-0 bg-grid opacity-[0.35] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(100%,52rem)] h-[min(70vh,36rem)] rounded-[50%] bg-[var(--accent)] opacity-[0.045] blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 noise opacity-50 pointer-events-none" aria-hidden />
+        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 md:h-40 bg-gradient-to-t from-[var(--bg)] to-transparent pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-5 py-24 relative z-10">
-          <motion.div {...fadeUp(0)} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--accent-dim)] border border-[var(--accent-border)] mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-              <span className="text-xs font-medium text-[var(--accent)]">Economy Backend Live · Worker Network Active</span>
-            </div>
-
-            <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-[var(--text-primary)] leading-[1.05] mb-6">
-              Contribute GPU.{' '}
-              <span className="text-[var(--accent)]">Earn ALPEN.</span>
-            </h1>
-            <p className="text-lg text-[var(--text-muted)] leading-relaxed mb-8 max-w-xl">
-              AlpenMesh Compute is a premium decentralized GPU marketplace. Connect your worker node, contribute inference compute, and earn transparent, provable rewards.
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 py-8 sm:py-12 md:py-16 relative z-10 w-full">
+          <motion.div {...fadeUp(0)} className="max-w-3xl w-full">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-faint)] mb-4">
+              Distributed GPU for AI
             </p>
-            <div className="flex flex-wrap gap-3">
+
+            <h1 className="font-display font-bold text-[clamp(1.875rem,4.5vw+0.5rem,3.5rem)] sm:text-[clamp(2.25rem,5vw,3.75rem)] text-[var(--text-primary)] leading-[1.08] mb-5 sm:mb-6">
+              Put your GPU to work on{' '}
+              <span className="text-[var(--accent)]">real AI infrastructure</span> and get paid in ALPEN.
+            </h1>
+
+            <p className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] leading-relaxed mb-8 sm:mb-10 max-w-2xl">
+              AlpenMesh Compute connects contributors who run GPU nodes with a network built for transparent rewards.
+              Create an account, link your node and payout wallet, and track earnings as you contribute, not as a side
+              project pitch, but as a product you can actually use.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-8 sm:mb-12 md:mb-14">
               <Link to="/signup">
-                <Button size="xl">
-                  Start Contributing <ArrowRight size={18} />
+                <Button variant="cta" size="xl">
+                  Get started <ArrowRight size={18} />
                 </Button>
               </Link>
               <Link to="/how-it-works">
                 <Button variant="secondary" size="xl">
-                  How It Works
+                  See how it works
                 </Button>
               </Link>
             </div>
 
-            <div className="flex flex-wrap items-center gap-5 mt-10 text-sm text-[var(--text-muted)]">
-              <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-[var(--success)]" /> Free to join</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-[var(--success)]" /> Live reward tracking</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-[var(--success)]" /> On-chain proof visibility</span>
-            </div>
-          </motion.div>
-
-          {/* Floating stats card */}
-          <motion.div
-            {...fadeUp(0.25)}
-            className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl"
-          >
-            {[
-              { label: 'Proof Batches', val: 'On-chain' },
-              { label: 'Reward Currency', val: 'ALPEN' },
-              { label: 'Backend', val: 'Rust / Axum' },
-              { label: 'Database', val: 'MongoDB' },
-            ].map(({ label, val }) => (
-              <div key={label} className="bg-[var(--surface)]/80 border border-[var(--border)] rounded-[var(--radius-md)] px-4 py-3 backdrop-blur-sm">
-                <p className="text-lg font-display font-bold text-[var(--text-primary)]">{val}</p>
-                <p className="text-xs text-[var(--text-faint)] mt-0.5">{label}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── How It Works ──────────────────────────────────────── */}
-      <section className="py-24 bg-[var(--bg-subtle)]">
-        <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
-            <Badge variant="accent" className="mb-4">How it works</Badge>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              Earn rewards in four steps
-            </h2>
-            <p className="text-[var(--text-muted)]">
-              No complex setup. No opaque reward mechanics. Your worker earns ALPEN per proven inference batch.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {STEPS.map(({ n, title, desc, icon: Icon }, i) => (
-              <motion.div key={n} {...fadeUp(i * 0.08)}>
-                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] p-6 h-full hover:border-[var(--accent-border)] transition-colors group">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-bold text-[var(--text-faint)] font-mono">{n}</span>
-                    <div className="w-9 h-9 rounded-lg bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center group-hover:bg-[var(--accent)] group-hover:border-[var(--accent)] transition-colors">
-                      <Icon size={16} className="text-[var(--accent)] group-hover:text-[#090B0F] transition-colors" />
-                    </div>
-                  </div>
-                  <h3 className="font-display font-bold text-[var(--text-primary)] mb-2">{title}</h3>
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Features ──────────────────────────────────────────── */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
-            <Badge variant="accent" className="mb-4">Platform features</Badge>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              Everything your worker needs
-            </h2>
-            <p className="text-[var(--text-muted)]">
-              Live features are fully integrated with the backend. Phase 2 features are clearly marked.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map(({ icon: Icon, title, desc, live }, i) => (
-              <motion.div key={title} {...fadeUp(i * 0.06)}>
-                <div className={`bg-[var(--surface)] border rounded-[var(--radius-xl)] p-6 h-full transition-colors ${live ? 'border-[var(--border)] hover:border-[var(--accent-border)]' : 'border-dashed border-[var(--border)] opacity-70'}`}>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] flex items-center justify-center">
-                      <Icon size={18} className="text-[var(--text-muted)]" />
-                    </div>
-                    {live ? <Badge variant="live">Live</Badge> : <Badge variant="phase2">Phase 2</Badge>}
-                  </div>
-                  <h3 className="font-display font-bold text-[var(--text-primary)] mb-2">{title}</h3>
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Phase 2 Teaser ────────────────────────────────────── */}
-      <section className="py-20 bg-[var(--bg-subtle)]">
-        <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--warning-dim)] border border-[var(--warning-dim)] mb-6">
-              <Clock size={12} className="text-[var(--warning)]" />
-              <span className="text-xs font-medium text-[var(--warning)]">Coming in Next Phase</span>
-            </div>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              Rent distributed GPU compute
-            </h2>
-            <p className="text-[var(--text-muted)] text-lg mb-8">
-              Phase 2 introduces a full compute marketplace — submit Docker-based workloads, specify GPU requirements, and run AI inference at scale across the AlpenMesh worker network.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left opacity-70">
-              {[
-                { title: 'Submit Jobs', desc: 'Container images, GPU specs, budget caps' },
-                { title: 'Monitor Execution', desc: 'Real-time job lifecycle and status' },
-                { title: 'Settle Payments', desc: 'ALPEN-denominated trustless billing' },
-              ].map(({ title, desc }) => (
-                <div key={title} className="p-4 bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-[var(--radius-lg)]">
-                  <h4 className="font-semibold text-[var(--text-primary)] text-sm mb-1">{title}</h4>
-                  <p className="text-xs text-[var(--text-muted)]">{desc}</p>
+            {/* Trust pillars */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-4 sm:pt-6 border-t border-[var(--border-subtle)]">
+              {TRUST_PILLARS.map(({ kicker, line }) => (
+                <div key={kicker}>
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--accent)] mb-2">
+                    {kicker}
+                  </p>
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{line}</p>
                 </div>
               ))}
             </div>
@@ -235,14 +187,124 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── FAQ ───────────────────────────────────────────────── */}
+      {/* How it works — width matches PublicLayout nav: max-w-7xl + px-5 */}
+      <section className="py-24 bg-[var(--bg-subtle)]">
+        <div className="max-w-7xl mx-auto w-full px-5">
+          <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
+            <Badge variant="accent" className="mb-4">
+              How it works
+            </Badge>
+            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
+              Here is how you get started
+            </h2>
+            <p className="text-[var(--text-muted)]">
+              Four steps you can finish today. We keep the language simple so you always know what to do next.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {STEPS.map(({ n, title, desc }, i) => (
+              <motion.div key={n} {...fadeUp(i * 0.08)} className="h-full">
+                <div
+                  className="bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)] p-7 sm:p-8 min-h-[260px] sm:min-h-[280px] lg:min-h-[300px] h-full hover:border-[var(--accent-border)] transition-colors relative overflow-hidden flex flex-col"
+                >
+                  <div className="relative z-10 flex-1 pr-2 sm:pr-3 pb-16">
+                    <h3 className="font-display font-bold text-[var(--text-primary)] mb-3 text-balance">{title}</h3>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed text-pretty">{desc}</p>
+                  </div>
+                  <span
+                    className="absolute bottom-2 right-3 sm:bottom-3 sm:right-4 text-[4.25rem] sm:text-[4.75rem] font-display font-bold leading-none text-[var(--accent)] select-none pointer-events-none opacity-[0.38] sm:opacity-[0.45]"
+                    aria-hidden
+                  >
+                    {n}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-5">
+          <motion.div {...fadeUp(0)} className="text-center max-w-2xl mx-auto mb-14">
+            <Badge variant="accent" className="mb-4">
+              Platform
+            </Badge>
+            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
+              What you can do today
+            </h2>
+            <p className="text-[var(--text-muted)]">
+              Everything listed as available is live in the product. Anything marked as a future phase is labeled so you
+              are never misled.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURES.map(({ title, desc, live }, i) => (
+              <motion.div key={title} {...fadeUp(i * 0.06)}>
+                <div
+                  className={`rounded-[var(--radius-xl)] p-6 h-full border pl-5 transition-colors ${
+                    live
+                      ? 'bg-[var(--surface)] border-[var(--border)] border-l-4 border-l-[var(--accent)] hover:border-[var(--accent-border)]'
+                      : 'bg-[var(--surface)] border border-dashed border-[var(--border)] border-l-4 border-l-[var(--border)] opacity-80'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <h3 className="font-display font-bold text-[var(--text-primary)]">{title}</h3>
+                    {live ? <Badge variant="live">Available</Badge> : <Badge variant="phase2">Coming later</Badge>}
+                  </div>
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Future phase */}
+      <section className="py-20 bg-[var(--bg-subtle)]">
+        <div className="max-w-7xl mx-auto px-5">
+          <motion.div {...fadeUp(0)} className="max-w-3xl mx-auto text-center">
+            <Badge variant="phase2" className="mb-6">
+              Coming in a later phase
+            </Badge>
+            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
+              Rent GPU when the marketplace opens
+            </h2>
+            <p className="text-[var(--text-muted)] text-lg mb-10 leading-relaxed">
+              We are building a way for teams to buy compute from the network, not just contribute it. When that layer
+              ships, you will be able to submit jobs, set resource expectations and pay in ALPEN. It is not live yet;
+              this page will stay explicit about that.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+              {[
+                { title: 'Submit jobs', desc: 'Define what you want to run and what you are willing to spend.' },
+                { title: 'Track runs', desc: 'Follow status from queue through completion.' },
+                { title: 'Settle fairly', desc: 'Pricing and settlement designed around verifiable work.' },
+              ].map(({ title, desc }) => (
+                <div
+                  key={title}
+                  className="p-5 bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-[var(--radius-lg)]"
+                >
+                  <h4 className="font-semibold text-[var(--text-primary)] text-sm mb-1">{title}</h4>
+                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ */}
       <section className="py-24">
         <div className="max-w-3xl mx-auto px-5">
           <motion.div {...fadeUp(0)} className="text-center mb-12">
             <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              Frequently asked questions
+              Questions, answered plainly
             </h2>
-            <p className="text-[var(--text-muted)]">Everything you need to know about AlpenMesh Compute.</p>
+            <p className="text-[var(--text-muted)]">Straight answers, no hype, no hidden roadmap fiction.</p>
           </motion.div>
           <div className="flex flex-col gap-3">
             {FAQS.map((faq, i) => (
@@ -254,26 +316,28 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────── */}
+      {/* CTA */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[var(--accent)] opacity-[0.06] blur-[80px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(100%,36rem)] h-[min(50vh,18rem)] rounded-full bg-[var(--accent)] opacity-[0.06] blur-[80px] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-5 text-center relative z-10">
           <motion.div {...fadeUp(0)}>
-            <h2 className="font-display font-bold text-5xl text-[var(--text-primary)] mb-5">
-              Ready to earn from your GPU?
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-[var(--text-primary)] mb-5">
+              Ready to contribute?
             </h2>
             <p className="text-[var(--text-muted)] text-lg mb-8">
-              Connect your worker, link your wallet, and start earning ALPEN rewards from real AI inference compute.
+              Open an account, connect your node when you are ready, and keep your payout path under your control.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link to="/signup">
                 <Button size="xl">
-                  Get Started Free <ArrowRight size={18} />
+                  Create free account <ArrowRight size={18} />
                 </Button>
               </Link>
               <Link to="/features">
-                <Button variant="secondary" size="xl">Explore Features</Button>
+                <Button variant="secondary" size="xl">
+                  Explore features
+                </Button>
               </Link>
             </div>
           </motion.div>

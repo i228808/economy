@@ -19,7 +19,7 @@ import { usersApi } from '@/api/users'
 function fmt(n = 0) { return new Intl.NumberFormat().format(n) }
 function fmtAlpen(n = 0) { return `${Number(n || 0).toFixed(3)} ALPEN` }
 function fmtDate(ts) {
-  if (!ts) return '—'
+  if (!ts) return 'N/A'
   return new Date(ts).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
@@ -147,7 +147,7 @@ export default function WorkerDetail() {
                       className="border-b border-[var(--border-subtle)] hover:bg-[var(--surface-raised)] transition-colors"
                     >
                       <td className="py-3 px-2 font-mono text-xs text-[var(--text-muted)]">
-                        {proof.proof_id?.slice(0, 14)}…
+                        {proof.proof_id?.slice(0, 14)}...
                       </td>
                       <td className="py-3 px-2">
                         <StatusBadge status={proof.chain_status} />

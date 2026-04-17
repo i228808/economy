@@ -20,7 +20,7 @@ const PRINCIPLES = [
   {
     icon: Shield,
     title: 'Transparent Rewards',
-    desc: 'Every inference batch generates a proof. Rewards are calculated deterministically and visible to each worker operator — no black box payout mechanics.',
+    desc: 'Every inference batch generates a proof. Rewards are calculated deterministically and visible to each worker operator, with no black box payout mechanics.',
   },
   {
     icon: TrendingUp,
@@ -48,7 +48,7 @@ export default function About() {
               A serious infrastructure project for distributed AI compute
             </h1>
             <p className="text-lg text-[var(--text-muted)] leading-relaxed">
-              AlpenMesh Compute is a final year project (FYP) that demonstrates a production-grade, end-to-end decentralized compute economy — from worker registration and proof generation to earnings tracking and wallet settlement.
+              AlpenMesh Compute is a final year project (FYP) that demonstrates a production-grade, end-to-end decentralized compute economy, from worker registration and proof generation to earnings tracking and wallet settlement.
             </p>
           </motion.div>
         </div>
@@ -64,10 +64,10 @@ export default function About() {
                 Centralized cloud compute is expensive, opaque, and controlled by a handful of providers. AlpenMesh Compute proposes an alternative: a permissionless participation layer where anyone with a GPU can contribute capacity and earn transparent, provable rewards.
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed mb-4">
-                The long-term goal is a full compute marketplace — where AI practitioners can submit containerized jobs that execute across a distributed network of verified worker nodes, with trustless settlement on completion.
+                The long-term goal is a full compute marketplace where AI practitioners can submit containerized jobs that execute across a distributed network of verified worker nodes, with trustless settlement on completion.
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed">
-                The current release delivers the worker economy foundation: authentication, worker management, wallet linking, earnings tracking, and proof history — with the full marketplace planned for Phase 2.
+                The current release delivers the worker economy foundation: authentication, worker management, wallet linking, earnings tracking, and proof history, with the full marketplace planned for Phase 2.
               </p>
             </motion.div>
             <motion.div {...fadeUp(0.15)} className="grid grid-cols-2 gap-4">
