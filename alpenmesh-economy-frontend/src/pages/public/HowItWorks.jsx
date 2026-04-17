@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Shield, Cpu, Wallet, TrendingUp, Globe, Container, ArrowRight, CheckCircle2 } from 'lucide-react'
-import { Badge } from '@/components/ui/Badge'
+import { Shield, Cpu, Wallet, TrendingUp, Globe, Container, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 
 const fadeUp = (delay = 0) => ({
@@ -11,55 +10,55 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.45, delay, ease: 'easeOut' },
 })
 
-const LIVE_STEPS = [
+const STEPS = [
   {
-    n: '01', icon: Shield, title: 'Create Your Account',
-    desc: 'Sign up with email and display name. Your account is provisioned immediately, with no wallet required at this stage.',
+    n: '01', icon: Shield, title: 'Create your account',
+    desc: 'Sign up with your email and display name. Your account is ready immediately with no wallet required at this stage.',
     details: [
-      'Email + password authentication',
-      'Session-based auth with server-side token rotation',
-      'Secure SHA-256 password hashing on the backend',
+      'Email and password sign up',
+      'Session-based authentication with server-side token rotation',
+      'Password hashed securely on the backend',
     ],
   },
   {
-    n: '02', icon: Cpu, title: 'Register & Connect a Worker',
-    desc: 'First, register your local AlpenMesh worker using its unique worker ID and secret. Then claim it to your account.',
+    n: '02', icon: Cpu, title: 'Register and connect a worker',
+    desc: 'Register your local AlpenMesh worker using its unique worker ID and secret, then claim it to your account so contributions are credited to you.',
     details: [
       'Worker registration stores a hashed secret in the network registry',
       'Claiming links the worker to your account',
-      'Optionally add a human-readable label',
-      'Multiple workers can be connected to one account',
+      'Add a human-readable label to stay organised',
+      'Connect as many workers as you have machines',
     ],
   },
   {
-    n: '03', icon: Wallet, title: 'Link Your Payout Wallet',
-    desc: 'Attach a Solana-compatible wallet to receive ALPEN reward payouts. You can also bind separate wallets per worker.',
+    n: '03', icon: Wallet, title: 'Link your payout wallet',
+    desc: 'Attach a wallet address to receive ALPEN rewards. You can set one wallet at the account level or bind different addresses per worker.',
     details: [
-      'Account-level wallet for global payout routing',
-      'Per-worker wallet overrides for granular control',
-      'Network label stored alongside address',
+      'Account-level wallet for simple payout routing',
+      'Per-worker wallet override for granular control',
+      'Update or change your address any time',
     ],
   },
   {
-    n: '04', icon: TrendingUp, title: 'Track Proofs & Earnings',
-    desc: 'Your worker automatically submits inference proof batches to the network. Track each batch and your earned ALPEN.',
+    n: '04', icon: TrendingUp, title: 'Track proofs and earnings',
+    desc: 'Your worker submits inference proof batches to the network automatically. Follow each batch and your accumulated ALPEN from the dashboard.',
     details: [
-      'Proof batches include window time, inference count, and reward',
-      'Chain status transitions: queued → submitted → confirmed',
-      'Pending and submitted reward breakdown per worker',
-      'Network-wide and per-worker earnings dashboard',
+      'Proof batches show window time, inference count, and reward',
+      'Status transitions from queued through submitted to confirmed',
+      'Pending and settled reward breakdown per worker',
+      'Network-wide and per-worker earnings summary',
     ],
   },
 ]
 
-const PHASE2_STEPS = [
+const EXPANDING_STEPS = [
   {
-    n: '05', icon: Globe, title: 'Submit Your Own Compute Jobs (Phase 2)',
-    desc: 'In Phase 2, you\'ll be able to submit containerized AI workloads to the network and pay in ALPEN for distributed GPU compute.',
+    n: '05', icon: Globe, title: 'Submit your own compute jobs',
+    desc: 'When the marketplace opens, you will be able to submit AI workloads to the network and pay in ALPEN for distributed GPU compute.',
   },
   {
-    n: '06', icon: Container, title: 'Docker-Based Workloads (Phase 2)',
-    desc: 'Workloads may include Docker image URLs, custom entrypoints, GPU VRAM requirements, and runtime limits. Settlement is automatic on completion.',
+    n: '06', icon: Container, title: 'Run containerised workloads',
+    desc: 'Define Docker-based jobs with custom entrypoints, VRAM requirements, and runtime limits. Settlement happens automatically on completion.',
   },
 ]
 
@@ -69,48 +68,42 @@ export default function HowItWorks() {
       {/* Hero */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" aria-hidden />
         <div className="max-w-7xl mx-auto px-5 relative z-10">
           <motion.div {...fadeUp(0)} className="max-w-2xl">
-            <Badge variant="accent" className="mb-4">How It Works</Badge>
-            <h1 className="font-display font-bold text-5xl text-[var(--text-primary)] mb-5">
-              Technically accurate. Start to finish.
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-4">
+              How it works
+            </p>
+            <h1 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-5">
+              From account to earnings, step by step
             </h1>
             <p className="text-[var(--text-muted)] text-lg leading-relaxed">
-              A step-by-step walkthrough of the AlpenMesh Compute economy system, from account creation to proof settlement.
+              A clear walkthrough of the AlpenMesh Compute contributor flow, from signing up to tracking your proof history and rewards.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Live steps */}
-      <section className="py-12">
+      {/* Steps timeline */}
+      <section className="py-12 pb-20">
         <div className="max-w-4xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="flex items-center gap-3 mb-10">
-            <h2 className="font-display font-bold text-2xl text-[var(--text-primary)]">Live Today</h2>
-            <Badge variant="live">Active</Badge>
-          </motion.div>
           <div className="relative flex flex-col gap-0">
-            {/* Timeline line */}
             <div className="absolute left-6 top-12 bottom-12 w-px bg-[var(--border)] hidden sm:block" />
-            {LIVE_STEPS.map(({ n, icon: Icon, title, desc, details }, i) => (
+            {STEPS.map(({ n, icon: Icon, title, desc, details }, i) => (
               <motion.div key={n} {...fadeUp(i * 0.07)} className="flex gap-6 pb-12 last:pb-0">
-                {/* Step number */}
-                <div className="shrink-0 flex flex-col items-center gap-2 hidden sm:flex">
-                  <div className="w-12 h-12 rounded-full bg-[var(--accent)] flex items-center justify-center z-10 relative shadow-lg">
-                    <Icon size={20} className="text-[#090B0F]" />
+                <div className="shrink-0 hidden sm:flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 rounded-full bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center z-10 relative">
+                    <Icon size={20} className="text-[var(--accent)]" />
                   </div>
                 </div>
-                {/* Content */}
                 <div className="flex-1 pb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-bold font-mono text-[var(--text-faint)]">STEP {n}</span>
-                  </div>
-                  <h3 className="font-display font-bold text-xl text-[var(--text-primary)] mb-2">{title}</h3>
+                  <span className="text-[11px] font-bold font-mono text-[var(--text-faint)] tracking-widest">STEP {n}</span>
+                  <h3 className="font-display font-bold text-xl text-[var(--text-primary)] mt-1.5 mb-2">{title}</h3>
                   <p className="text-[var(--text-muted)] mb-4 leading-relaxed">{desc}</p>
                   <ul className="space-y-2">
                     {details.map(d => (
                       <li key={d} className="flex items-start gap-2.5 text-sm text-[var(--text-muted)]">
-                        <CheckCircle2 size={14} className="text-[var(--success)] shrink-0 mt-0.5" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0 mt-1.5 opacity-80" />
                         {d}
                       </li>
                     ))}
@@ -122,24 +115,32 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* Phase 2 steps */}
-      <section className="py-12 bg-[var(--bg-subtle)]">
+      {/* Expanding section */}
+      <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-4xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="flex items-center gap-3 mb-8">
-            <h2 className="font-display font-bold text-2xl text-[var(--text-primary)]">Coming in Phase 2</h2>
-            <Badge variant="phase2">Planned</Badge>
+          <motion.div {...fadeUp(0)} className="mb-10">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
+              Expanding the network
+            </p>
+            <h2 className="font-display font-bold text-2xl text-[var(--text-primary)] mb-2">
+              Where the flow goes next
+            </h2>
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-lg">
+              These steps extend the contributor flow into buyer-side compute. The infrastructure running today is built to support them.
+            </p>
           </motion.div>
-          <div className="flex flex-col gap-5">
-            {PHASE2_STEPS.map(({ n, icon: Icon, title, desc }, i) => (
+          <div className="flex flex-col gap-4">
+            {EXPANDING_STEPS.map(({ n, icon: Icon, title, desc }, i) => (
               <motion.div key={n} {...fadeUp(i * 0.06)}>
-                <div className="flex gap-5 p-6 bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-[var(--radius-xl)] opacity-70">
+                <div className="flex gap-5 p-6 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)]">
                   <div className="w-11 h-11 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] flex items-center justify-center shrink-0">
-                    <Icon size={18} className="text-[var(--text-faint)]" />
+                    <Icon size={18} className="text-[var(--text-muted)]" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <h3 className="font-display font-semibold text-[var(--text-primary)]">{title}</h3>
+                    <div className="flex items-center gap-3 mb-1.5">
+                      <span className="text-[11px] font-bold font-mono text-[var(--text-faint)] tracking-widest">STEP {n}</span>
                     </div>
+                    <h3 className="font-display font-semibold text-[var(--text-primary)] mb-1">{title}</h3>
                     <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
                   </div>
                 </div>
@@ -150,12 +151,21 @@ export default function HowItWorks() {
       </section>
 
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-20 border-t border-[var(--border)]">
         <div className="max-w-3xl mx-auto px-5 text-center">
           <motion.div {...fadeUp(0)}>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-5">Ready to get started?</h2>
-            <p className="text-[var(--text-muted)] mb-8">Create your account, connect your worker, and start earning today.</p>
-            <Link to="/signup"><Button size="lg">Get Started <ArrowRight size={16} /></Button></Link>
+            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">Ready to get started?</h2>
+            <p className="text-[var(--text-muted)] text-lg mb-8 leading-relaxed">
+              Create your account, connect your worker, and start earning today.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link to="/signup">
+                <Button variant="cta" size="xl">Create free account <ArrowRight size={16} /></Button>
+              </Link>
+              <Link to="/features">
+                <Button variant="secondary" size="xl">View all features</Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

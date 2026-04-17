@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Zap, Mail, Lock } from 'lucide-react'
+import { Mail, Lock } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Alert } from '@/components/ui/Alert'
@@ -42,11 +42,8 @@ export default function Login() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2.5 font-display font-bold text-xl text-[var(--text-primary)]">
-            <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center">
-              <Zap size={20} className="text-[#090B0F]" fill="currentColor" />
-            </div>
-            AlpenMesh Compute
+          <Link to="/" className="inline-block font-display font-bold text-xl text-[var(--text-primary)]">
+            AlpenMesh <span className="text-[var(--accent)]">Compute</span>
           </Link>
           <p className="text-sm text-[var(--text-muted)] mt-3">Sign in to your worker console</p>
         </div>

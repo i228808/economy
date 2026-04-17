@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Zap, Globe, Shield, TrendingUp, Cpu, ArrowRight } from 'lucide-react'
-import { Badge } from '@/components/ui/Badge'
+import { Globe, Shield, TrendingUp, Cpu, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 
 const fadeUp = (delay = 0) => ({
@@ -14,24 +13,36 @@ const fadeUp = (delay = 0) => ({
 const PRINCIPLES = [
   {
     icon: Globe,
-    title: 'Distributed by Design',
-    desc: 'AlpenMesh is built from the ground up for distributed infrastructure. Workers run independently, and the economy layer coordinates earnings without a central chokepoint.',
+    title: 'Distributed by design',
+    desc: 'Workers run independently across the network. There is no central chokepoint — contributors plug in, contribute, and earn without depending on any single provider or gateway.',
   },
   {
     icon: Shield,
-    title: 'Transparent Rewards',
-    desc: 'Every inference batch generates a proof. Rewards are calculated deterministically and visible to each worker operator, with no black box payout mechanics.',
+    title: 'Transparent rewards',
+    desc: 'Every inference batch produces a proof record. Rewards are calculated from verifiable work and visible in your dashboard, so you always know where your earnings come from.',
   },
   {
     icon: TrendingUp,
-    title: 'Provable Compute Contribution',
-    desc: 'Workers submit signed proof batches that record inference counts and time windows. This creates a verifiable history of compute contribution on-chain.',
+    title: 'Verifiable contribution',
+    desc: 'Workers submit signed proof batches that record inference counts and time windows. This builds an auditable history of compute contribution that both contributors and the network can trust.',
   },
   {
     icon: Cpu,
-    title: 'GPU-First Architecture',
-    desc: 'The worker and economy systems are optimised for GPU inference workloads. The reward model reflects real compute contributed, not hashrate or staking.',
+    title: 'Built for GPU workloads',
+    desc: 'The worker and reward systems are designed around GPU inference, not generic compute. Rewards reflect real work done, tied directly to the capacity your hardware provides.',
   },
+]
+
+const NETWORK_TAGS = [
+  'Distributed GPU network',
+  'AI inference workloads',
+  'ALPEN reward token',
+  'Solana-compatible wallets',
+  'Proof-based verification',
+  'Worker contribution tracking',
+  'On-chain settlement',
+  'Permissionless participation',
+  'Pay-per-compute billing',
 ]
 
 export default function About() {
@@ -41,47 +52,55 @@ export default function About() {
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[var(--accent)] opacity-[0.04] blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent" aria-hidden />
         <div className="max-w-7xl mx-auto px-5 relative z-10">
           <motion.div {...fadeUp(0)} className="max-w-3xl">
-            <Badge variant="accent" className="mb-5">About the Project</Badge>
-            <h1 className="font-display font-bold text-5xl sm:text-6xl text-[var(--text-primary)] mb-6 leading-[1.05]">
-              A serious infrastructure project for distributed AI compute
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)] mb-5">
+              About AlpenMesh
+            </p>
+            <h1 className="font-display font-bold text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.06] text-[var(--text-primary)] mb-6">
+              Infrastructure for the next generation of distributed AI compute
             </h1>
-            <p className="text-lg text-[var(--text-muted)] leading-relaxed">
-              AlpenMesh Compute is a final year project (FYP) that demonstrates a production-grade, end-to-end decentralized compute economy, from worker registration and proof generation to earnings tracking and wallet settlement.
+            <p className="text-lg text-[var(--text-muted)] leading-relaxed max-w-2xl">
+              AlpenMesh is a GPU compute network built around contributors. Anyone with a capable machine can join, connect their worker, and earn ALPEN rewards for the inference work their hardware completes.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Vision */}
-      <section className="py-16 bg-[var(--bg-subtle)]">
+      {/* Mission */}
+      <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div {...fadeUp(0)}>
-              <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-5">The Vision</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-4">
+                Our mission
+              </p>
+              <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-[var(--text-primary)] mb-5 leading-snug">
+                Open access to GPU compute
+              </h2>
               <p className="text-[var(--text-muted)] leading-relaxed mb-4">
-                Centralized cloud compute is expensive, opaque, and controlled by a handful of providers. AlpenMesh Compute proposes an alternative: a permissionless participation layer where anyone with a GPU can contribute capacity and earn transparent, provable rewards.
+                Centralised cloud compute is expensive and concentrated in a small number of providers. AlpenMesh offers an alternative: a permissionless network where anyone with a GPU can contribute capacity and earn rewards for real, verifiable work.
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed mb-4">
-                The long-term goal is a full compute marketplace where AI practitioners can submit containerized jobs that execute across a distributed network of verified worker nodes, with trustless settlement on completion.
+                Contributors run workers on hardware they already own. Those workers handle AI inference jobs routed by the network and submit signed proof batches that record what was done. Rewards follow directly from that proof.
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed">
-                The current release delivers the worker economy foundation: authentication, worker management, wallet linking, earnings tracking, and proof history, with the full marketplace planned for Phase 2.
+                The goal is a marketplace where AI teams can source distributed GPU capacity and pay in ALPEN, with contributors on the other side earning from the capacity they provide.
               </p>
             </motion.div>
-            <motion.div {...fadeUp(0.15)} className="grid grid-cols-2 gap-4">
+            <motion.div {...fadeUp(0.12)} className="grid grid-cols-2 gap-4">
               {[
-                { label: 'Backend Language', val: 'Rust' },
-                { label: 'Framework', val: 'Oxide / Axum' },
-                { label: 'Database', val: 'MongoDB' },
-                { label: 'Reward Token', val: 'ALPEN' },
-                { label: 'Frontend', val: 'React + Vite' },
-                { label: 'Network', val: 'Solana-based' },
+                { label: 'Reward token', val: 'ALPEN' },
+                { label: 'Wallet network', val: 'Solana-compatible' },
+                { label: 'Worker model', val: 'GPU inference nodes' },
+                { label: 'Proof system', val: 'Signed batch records' },
+                { label: 'Contributor access', val: 'Permissionless' },
+                { label: 'Settlement', val: 'On-chain, automatic' },
               ].map(({ label, val }) => (
                 <div key={label} className="p-4 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-md)]">
                   <p className="text-xs text-[var(--text-faint)] mb-1">{label}</p>
-                  <p className="font-display font-bold text-[var(--text-primary)]">{val}</p>
+                  <p className="font-display font-bold text-sm text-[var(--text-primary)]">{val}</p>
                 </div>
               ))}
             </motion.div>
@@ -90,23 +109,27 @@ export default function About() {
       </section>
 
       {/* Principles */}
-      <section className="py-16">
+      <section className="py-16 border-t border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center mb-12">
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">Design Principles</h2>
-            <p className="text-[var(--text-muted)] max-w-2xl mx-auto">
-              Every component of AlpenMesh Compute was built around these core principles.
+          <motion.div {...fadeUp(0)} className="max-w-xl mb-12">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
+              What we stand for
             </p>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-[var(--text-primary)] leading-snug">
+              Built on a few clear principles
+            </h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {PRINCIPLES.map(({ icon: Icon, title, desc }, i) => (
               <motion.div key={title} {...fadeUp(i * 0.07)}>
-                <div className="p-6 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] h-full hover:border-[var(--accent-border)] transition-colors">
-                  <div className="w-11 h-11 rounded-xl bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center mb-4">
+                <div className="flex gap-4 p-6 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-xl)] h-full hover:border-[var(--accent-border)] transition-colors duration-200">
+                  <div className="w-11 h-11 shrink-0 rounded-xl bg-[var(--accent-dim)] border border-[var(--accent-border)] flex items-center justify-center mt-0.5">
                     <Icon size={20} className="text-[var(--accent)]" />
                   </div>
-                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-2">{title}</h3>
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
+                  <div>
+                    <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-2">{title}</h3>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">{desc}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -114,45 +137,51 @@ export default function About() {
         </div>
       </section>
 
-      {/* Future vision */}
-      <section className="py-16 bg-[var(--bg-subtle)]">
-        <div className="max-w-5xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center mb-10">
-            <Badge variant="phase2" className="mb-4">Future Vision</Badge>
-            <h2 className="font-display font-bold text-3xl text-[var(--text-primary)] mb-4">
-              Distributed AI job execution
+      {/* Network scope */}
+      <section className="py-16 bg-[var(--bg-subtle)] border-t border-[var(--border)]">
+        <div className="max-w-5xl mx-auto px-5 text-center">
+          <motion.div {...fadeUp(0)} className="mb-10">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--text-faint)] mb-3">
+              The network in scope
+            </p>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-[var(--text-primary)] mb-3 leading-snug">
+              What AlpenMesh covers
             </h2>
-            <p className="text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
-              The next phase of AlpenMesh Compute introduces a true compute marketplace: AI practitioners submit jobs, the network matches them to available workers, executes workloads in isolated containers, verifies outputs via proof, and settles payment automatically in ALPEN.
+            <p className="text-[var(--text-muted)] max-w-lg mx-auto text-sm leading-relaxed">
+              From contributor onboarding to job execution and settlement, the network is designed to handle the full lifecycle of distributed GPU compute.
             </p>
           </motion.div>
-          <div className="flex flex-wrap justify-center gap-3 opacity-70">
-            {[
-              'Job submission API', 'Container orchestration', 'Worker capability discovery',
-              'Task queue lifecycle', 'Failover & reassignment', 'Trustless execution verification',
-              'Artifact management', 'Pay-per-run billing', 'On-chain settlement',
-            ].map(tag => (
-              <span key={tag} className="px-3 py-1.5 bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-full text-xs text-[var(--text-muted)]">
+          <motion.div {...fadeUp(0.1)} className="flex flex-wrap justify-center gap-2.5">
+            {NETWORK_TAGS.map(tag => (
+              <span
+                key={tag}
+                className="px-3.5 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded-full text-xs text-[var(--text-muted)] font-medium"
+              >
                 {tag}
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20">
+      <section className="py-20 border-t border-[var(--border)]">
         <div className="max-w-3xl mx-auto px-5 text-center">
           <motion.div {...fadeUp(0)}>
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-5">
-              Contribute to the network
+            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
+              Become part of the network
             </h2>
-            <p className="text-[var(--text-muted)] mb-8">
-              Connect your worker and start contributing GPU compute to AlpenMesh. Earn ALPEN rewards for every proven inference batch.
+            <p className="text-[var(--text-muted)] text-lg mb-8 leading-relaxed">
+              Create a free account, connect your GPU worker, and start earning ALPEN for the compute you contribute.
             </p>
-            <Link to="/signup">
-              <Button size="lg">Get Started <ArrowRight size={16} /></Button>
-            </Link>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link to="/signup">
+                <Button variant="cta" size="xl">Get started <ArrowRight size={16} /></Button>
+              </Link>
+              <Link to="/how-it-works">
+                <Button variant="secondary" size="xl">How it works</Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

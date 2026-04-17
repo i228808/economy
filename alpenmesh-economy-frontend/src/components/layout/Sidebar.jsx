@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Zap, LayoutDashboard, Cpu, Wallet, FileCheck, User,
+  LayoutDashboard, Cpu, Wallet, FileCheck, User,
   Briefcase, Store, Code2, X, ChevronRight
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
@@ -48,9 +48,6 @@ export function Sidebar({ collapsed, onClose, isMobile }) {
     >
       {/* Logo */}
       <div className="h-16 flex items-center gap-3 px-4 border-b border-[var(--border)] shrink-0">
-        <div className="w-8 h-8 shrink-0 rounded-lg bg-[var(--accent)] flex items-center justify-center">
-          <Zap size={15} className="text-[#090B0F]" fill="currentColor" />
-        </div>
         <AnimatePresence initial={false}>
           {(!collapsed || isMobile) && (
             <motion.span

@@ -12,6 +12,14 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.5, delay, ease: 'easeOut' },
 })
 
+/** No translateY: FAQ grid sits in two columns; motion y would widen hit boxes into the sibling column. */
+const fadeInViewport = (delay = 0) => ({
+  initial: { opacity: 0 },
+  whileInView: { opacity: 1 },
+  viewport: { once: true },
+  transition: { duration: 0.45, delay, ease: 'easeOut' },
+})
+
 const STEPS = [
   {
     n: '01',
@@ -119,24 +127,36 @@ const PLATFORM_OVERVIEW = [
 
 const FAQS = [
   {
-    q: 'What is AlpenMesh Compute?',
-    a: 'It is a platform for contributing GPU capacity to a distributed network and earning rewards in ALPEN for the work your machine performs. The focus is transparent accounting and a clear path from contribution to payout.',
+    q: 'What is AlpenMesh and what can I do here?',
+    a: 'AlpenMesh is a distributed GPU network where you contribute compute from machines you own and earn ALPEN rewards for your work. On this platform you can create an account, register your GPU workers, link a payout wallet, and track your earnings and contribution history from one dashboard.',
   },
   {
-    q: 'What do I need to participate?',
-    a: 'A compatible GPU and the AlpenMesh worker software. Requirements depend on the workloads the network assigns; check the documentation for current guidance.',
+    q: 'What do I need to get started as a contributor?',
+    a: 'You need a machine with a compatible GPU, the AlpenMesh worker software installed and running, and the worker ID and secret it generates. Once you have those, sign up for an account, register the worker, and claim it to your profile. The whole process takes a few minutes.',
   },
   {
-    q: 'How do rewards work?',
-    a: 'Rewards reflect verified contribution over time. You can see pending versus settled amounts in your dashboard so you always know where things stand.',
+    q: 'How do I add multiple workers to one account?',
+    a: 'After claiming your first worker you can register as many additional machines as you like from the same account. Each worker gets its own entry in your dashboard so you can label them, track their individual contribution history, and assign separate payout wallets if you want earnings split by machine.',
   },
   {
-    q: 'When can I rent GPU from others?',
-    a: 'A marketplace for buyers and renters is planned for a later phase. Today the product is centered on contributors: connecting nodes, linking wallets, and tracking earnings.',
+    q: 'How do payouts work and where does my ALPEN go?',
+    a: 'Rewards accumulate in ALPEN as your workers complete jobs. You link a wallet address on your profile or set a different address per worker if you prefer separate destinations. Your dashboard shows what is pending and what has settled. Always use a wallet address that you fully control.',
   },
   {
-    q: 'Is this production-ready?',
-    a: 'The platform is built for real sign-up, wallet linking, and earnings visibility. Features that are still in development are labeled clearly so expectations stay honest.',
+    q: 'What are proof batches?',
+    a: 'Proof batches are the on-record history of work your workers completed. Each batch has a status you can check at any time, so you can see what finished, what is still processing, and how your total earnings were calculated. Nothing about your contribution is hidden or summarised away.',
+  },
+  {
+    q: 'Is my account and worker secret kept secure?',
+    a: 'Your account is protected by your email and password, and the platform uses session tokens for authenticated requests. Your worker secret acts like a password for that machine identity, so you should treat it with the same care. Store it somewhere safe and use a strong password for your account.',
+  },
+  {
+    q: 'Which features are live right now?',
+    a: 'Account creation, sign in, worker registration and management, wallet linking, the earnings dashboard, and proof batch history are all live and backed by real data. Features that are still in development are clearly labelled in the product so you always know what you can rely on today.',
+  },
+  {
+    q: 'Will I be able to buy or rent GPU compute through AlpenMesh?',
+    a: 'A marketplace for buying compute is on the roadmap for a future phase. When it launches you will be able to submit jobs and pay in ALPEN. For now the platform is focused on contributors: connecting workers, tracking earnings, and giving you a clear view of your participation in the network.',
   },
 ]
 
@@ -257,29 +277,52 @@ function PlatformOverviewSection() {
   )
 }
 
-function FaqItem({ q, a }) {
+function FaqItem({ q, a, index }) {
   const [open, setOpen] = useState(false)
+  const reduceMotion = useReducedMotion()
+  const panelId = `landing-faq-panel-${index}`
+  const triggerId = `landing-faq-trigger-${index}`
+  const durationClass = reduceMotion ? 'duration-75' : 'duration-300'
+
   return (
-    <div
-      className="border border-[var(--border)] rounded-[var(--radius-md)] overflow-hidden cursor-pointer hover:border-[var(--accent-border)] transition-colors"
-      onClick={() => setOpen(v => !v)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={e => e.key === 'Enter' && setOpen(v => !v)}
+    <article
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      className="relative w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-sm shadow-sm transition-[border-color,box-shadow] ease-out hover:border-[var(--accent-border)] hover:shadow-[0_20px_48px_-28px_rgba(0,0,0,0.45)] overflow-hidden flex flex-col"
     >
-      <div className="flex items-center justify-between px-5 py-4 gap-4">
-        <p className="font-medium text-[var(--text-primary)] text-sm">{q}</p>
-        <ChevronDown
-          size={16}
-          className={`text-[var(--text-muted)] shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-        />
-      </div>
-      {open && (
-        <div className="px-5 pb-4 border-t border-[var(--border)]">
-          <p className="text-sm text-[var(--text-muted)] leading-relaxed pt-3">{a}</p>
+      <h3 className="m-0 text-left">
+        <button
+          type="button"
+          id={triggerId}
+          aria-expanded={open}
+          aria-controls={panelId}
+          className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left cursor-pointer text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
+          onClick={() => setOpen(v => !v)}
+        >
+          <span className="font-semibold text-sm sm:text-[0.9375rem] leading-snug pr-2">{q}</span>
+          <ChevronDown
+            size={18}
+            aria-hidden
+            className={`text-[var(--accent)] shrink-0 mt-0.5 transition-transform ${durationClass} ease-out ${open ? 'rotate-180' : ''}`}
+          />
+        </button>
+      </h3>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={triggerId}
+        className={`grid min-h-0 ease-out ${durationClass} motion-reduce:transition-none ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+      >
+        <div className="overflow-hidden min-h-0">
+          <div
+            className="border-t border-[var(--border-subtle)] px-5 pb-5 pt-1"
+            aria-hidden={!open}
+          >
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed">{a}</p>
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+    </article>
   )
 }
 
@@ -453,20 +496,62 @@ export default function Landing() {
       <PlatformOverviewSection />
 
       {/* FAQ */}
-      <section className="py-24">
-        <div className="max-w-3xl mx-auto px-5">
-          <motion.div {...fadeUp(0)} className="text-center mb-12">
-            <h2 className="font-display font-bold text-4xl text-[var(--text-primary)] mb-4">
-              Questions, answered plainly
+      <section className="py-24 border-t border-[var(--border)]">
+        <div className="max-w-7xl mx-auto px-5">
+          <motion.div {...fadeUp(0)} className="text-center mb-12 md:mb-14 max-w-2xl mx-auto">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] mb-4">
+              FAQ
+            </p>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.75rem)] text-[var(--text-primary)] mb-4 text-balance">
+              Answers that match the product
             </h2>
-            <p className="text-[var(--text-muted)]">Straight answers, no hype, no hidden roadmap fiction.</p>
+            <p className="text-[var(--text-muted)] text-base sm:text-lg leading-relaxed text-pretty">
+              Hover a card to read the full answer; it stays open while your pointer is anywhere on that card. On touch
+              devices, tap the question to open or close.
+            </p>
           </motion.div>
-          <div className="flex flex-col gap-3">
+          {/* Single column on small screens (reading order). From md: two independent flex columns so
+              expanding one card only shifts content below in that column, not a paired "row" in the other. */}
+          <div className="flex flex-col gap-4 md:hidden">
             {FAQS.map((faq, i) => (
-              <motion.div key={i} {...fadeUp(i * 0.04)}>
-                <FaqItem {...faq} />
+              <motion.div
+                key={faq.q}
+                {...fadeInViewport(0.05 + i * 0.03)}
+                className="min-h-0 w-full min-w-0 overflow-x-clip"
+              >
+                <FaqItem q={faq.q} a={faq.a} index={i} />
               </motion.div>
             ))}
+          </div>
+          <div className="hidden md:flex md:flex-row md:items-start gap-5">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-5 overflow-x-clip">
+              {FAQS.filter((_, i) => i % 2 === 0).map((faq, j) => {
+                const i = j * 2
+                return (
+                  <motion.div
+                    key={faq.q}
+                    {...fadeInViewport(0.05 + i * 0.03)}
+                    className="min-h-0 w-full min-w-0 overflow-x-clip"
+                  >
+                    <FaqItem q={faq.q} a={faq.a} index={i} />
+                  </motion.div>
+                )
+              })}
+            </div>
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-5 overflow-x-clip">
+              {FAQS.filter((_, i) => i % 2 === 1).map((faq, j) => {
+                const i = j * 2 + 1
+                return (
+                  <motion.div
+                    key={faq.q}
+                    {...fadeInViewport(0.05 + i * 0.03)}
+                    className="min-h-0 w-full min-w-0 overflow-x-clip"
+                  >
+                    <FaqItem q={faq.q} a={faq.a} index={i} />
+                  </motion.div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -485,7 +570,7 @@ export default function Landing() {
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link to="/signup">
-                <Button size="xl">
+                <Button variant="cta" size="xl">
                   Create free account <ArrowRight size={18} />
                 </Button>
               </Link>
