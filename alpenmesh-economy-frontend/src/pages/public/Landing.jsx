@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
@@ -87,6 +87,36 @@ const TRUST_PILLARS = [
   },
 ]
 
+/** Landing-only platform overview (distinct from gated FEATURES grid). */
+const PLATFORM_OVERVIEW = [
+  {
+    wide: true,
+    title: 'Your contributor console',
+    body: 'One place for your profile, the workers you have linked, and a clear read on how your participation is performing.',
+  },
+  {
+    title: 'Workers on your terms',
+    body: 'Register a machine, claim it to your account, and label each node so a growing fleet never turns into a spreadsheet problem.',
+  },
+  {
+    title: 'Wallets that match how you work',
+    body: 'Route rewards through a wallet on your profile or set payouts per worker when different destinations make more sense.',
+  },
+  {
+    title: 'A trail you can actually read',
+    body: 'Proof batches surface with statuses you can follow, so nothing about your contribution feels opaque or hand-wavy.',
+  },
+  {
+    title: 'Context across the network',
+    body: 'Dashboard summaries help you sense how your GPUs sit in the broader picture, not just what happened on one box yesterday.',
+  },
+  {
+    wide: true,
+    title: 'Accounts you can start now',
+    body: 'Sign up, sign in, and move through onboarding without mystery steps or hidden prerequisites.',
+  },
+]
+
 const FAQS = [
   {
     q: 'What is AlpenMesh Compute?',
@@ -109,6 +139,123 @@ const FAQS = [
     a: 'The platform is built for real sign-up, wallet linking, and earnings visibility. Features that are still in development are labeled clearly so expectations stay honest.',
   },
 ]
+
+function PlatformOverviewSection() {
+  const reduceMotion = useReducedMotion()
+
+  const itemMotion = (delay = 0) => ({
+    initial: { opacity: 0, y: reduceMotion ? 0 : 22 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-40px' },
+    transition: {
+      duration: reduceMotion ? 0.12 : 0.48,
+      delay: reduceMotion ? 0 : delay,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  })
+
+  return (
+    <section className="relative border-t border-[var(--border)] overflow-hidden">
+      {/* Atmosphere: depth without competing with content */}
+      <div className="absolute inset-0 bg-[var(--bg)]" aria-hidden />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.55] [mask-image:linear-gradient(180deg,black,transparent_85%)]"
+        style={{
+          backgroundImage:
+            'radial-gradient(ellipse 90% 55% at 100% -10%, rgba(232,168,68,0.14), transparent 50%), radial-gradient(ellipse 70% 45% at 0% 100%, rgba(232,168,68,0.06), transparent 45%)',
+        }}
+        aria-hidden
+      />
+      <div className="absolute inset-0 bg-grid opacity-[0.2] pointer-events-none" aria-hidden />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/50 to-transparent" aria-hidden />
+      <div className="absolute -right-24 top-1/4 w-[min(55vw,28rem)] aspect-square rounded-full border border-[var(--accent-border)] opacity-30 pointer-events-none" aria-hidden />
+      <div className="absolute -left-16 bottom-0 w-72 h-72 rounded-full bg-[var(--accent)] opacity-[0.03] blur-3xl pointer-events-none" aria-hidden />
+
+      <div className="relative max-w-7xl mx-auto w-full px-5 py-20 md:py-28">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Editorial column */}
+          <motion.div {...itemMotion(0)} className="lg:col-span-5 lg:sticky lg:top-28">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)] mb-5">
+              Platform overview
+            </p>
+            <h2 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-[var(--text-primary)] mb-6 text-balance">
+              Everything the product is{' '}
+              <span className="relative inline-block">
+                <span className="relative z-10 text-[var(--accent)]">designed to prove</span>
+                <span
+                  className="absolute -bottom-1 left-0 right-0 h-2.5 bg-[var(--accent)]/15 -rotate-1 rounded-sm -z-0"
+                  aria-hidden
+                />
+              </span>
+              {' '}about your GPUs.
+            </h2>
+            <p className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed mb-8 max-w-md text-pretty">
+              AlpenMesh Compute is built around contributors first: honest visibility, deliberate pacing, and surfaces
+              that respect the fact that you are running real machines, not clicking through another generic dashboard.
+            </p>
+            <Link
+              to="/features"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors"
+            >
+              Full feature tour
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </motion.div>
+
+          {/* Bento-style feature mosaic */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+            {PLATFORM_OVERVIEW.map((item, i) => (
+              <motion.article
+                key={item.title}
+                {...itemMotion(0.06 + i * 0.05)}
+                className={`
+                  group relative rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-sm
+                  p-6 md:p-7 transition-[border-color,box-shadow,transform] duration-300 ease-out
+                  hover:border-[var(--accent-border)] hover:shadow-[0_20px_50px_-24px_rgba(0,0,0,0.55)]
+                  ${item.wide ? 'sm:col-span-2' : ''}
+                  ${!item.wide && i % 2 === 1 ? 'md:translate-y-5' : ''}
+                `}
+              >
+                <div
+                  className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  aria-hidden
+                />
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <span className="font-mono text-[11px] font-medium tracking-widest text-[var(--accent)]/90 tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)] opacity-60 group-hover:opacity-100 group-hover:shadow-[0_0_12px_var(--accent)] transition-all duration-300"
+                    aria-hidden
+                  />
+                </div>
+                <h3 className="font-display font-bold text-lg md:text-xl text-[var(--text-primary)] mb-2.5 leading-snug text-balance">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed text-pretty">{item.body}</p>
+                {item.wide && (
+                  <div
+                    className="mt-6 flex flex-wrap gap-2 text-[10px] font-medium uppercase tracking-wider text-[var(--text-faint)]"
+                    aria-hidden
+                  >
+                    {['Portfolio', 'Workers', 'Proofs', 'Wallets', 'Dashboard'].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[var(--border)] bg-[var(--surface-raised)] px-2.5 py-1 text-[var(--text-muted)]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function FaqItem({ q, a }) {
   const [open, setOpen] = useState(false)
@@ -302,6 +449,8 @@ export default function Landing() {
           </div>
         </section>
       )}
+
+      <PlatformOverviewSection />
 
       {/* FAQ */}
       <section className="py-24">
